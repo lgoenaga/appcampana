@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "BackEnd Aplicación Almacenamiento de Información",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "build": "pm2 start ./src/index.js --name bebdcampana",
+    "dev": "nodemon ./src/index.js"
+  },
+  "author": "Luis Goenaga (luisgoenagap@gmail.com)",
+  "license": "UNLICENSED",
+  "private": "true",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.3",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
+    "mongoose": "^6.8.4"
+  },
+  "engines": {
+    "node": "v18.16.0"
+  }
+}

@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+ frontend-campana:
+  container_name: frontend-campana
+  image: lgoenaga/frontend-campana:V1
+  ports:
+   - 3000:3000
+  networks:
+   - net-frontend-campana
+networks:
+ net-frontend-campana:

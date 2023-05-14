@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+ backend-campana:
+  container_name: backend-campana
+  image: lgoenaga/backend-campana:V1
+  ports:
+   - 4005:4005
+  networks:
+   - net-backend-campana
+networks:
+ net-backend-campana:
