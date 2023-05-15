@@ -19,6 +19,7 @@ export const UpdateRegistroUsuario = () => {
 	const [valoresForm, setValoresForm] = useState({});
 
 	const [usuario, setUsuario] = useState({});
+	const [errors, setErrors] = useState({});
 
 	const { user = "", password = "", rol = "", estado = "" } = valoresForm;
 
@@ -116,7 +117,6 @@ export const UpdateRegistroUsuario = () => {
 
 	const handleOnSubmit = async (event) => {
 		event.preventDefault();
- 
 
 		const form = event.currentTarget;
 		if (form.checkValidity() === false) {
@@ -124,136 +124,154 @@ export const UpdateRegistroUsuario = () => {
 			event.stopPropagation();
 		}
 
-		setValidated(true);
-
-    let timerInterval;
-
-		const usuario = {
-			user,
-			password,
-			rol,
-			estado,
-		};
-		if (user !== "administrador" || userUser === "administrador") {
-			Swal.fire({
-				title: "Desea Actualizar el usuario? ",
-	
-				timer: 20000,
-				timerProgressBar: true,
-				showDenyButton: true,
-				showConfirmButton: true,
-				confirmButtonText: "Update",
-				denyButtonText: "Not update",
-				html:
-					"<div style='font-size:25px;'><br>Autocerrado en...... " +
-					"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
-				allowOutsideClick: false,
-				allowEscapeKey: false,
-				allowEnterKey: false,
-				didOpen: (toast) => {
-					toast.addEventListener("mouseenter", Swal.stopTimer);
-
-					toast.addEventListener("mouseleave", Swal.resumeTimer);
-
-					const b = Swal.getHtmlContainer().querySelector("b");
-					timerInterval = setInterval(() => {
-						b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
-					}, 1000);
-				},
-				willClose: () => {
-					clearInterval(timerInterval);
-				},
-			}).then(async (result) => {
-				let data = "";
-				try {
-					if (result.isConfirmed) {
-						const authheader = AuthHeaders();
-						data = await updateUsuario(userLogin, usuario, authheader);
-						Swal.fire({
-							icon: "success",
-							title: "Usuario Actualizado",
-							showConfirmButton: false,
-							timer: 2000,
-							didOpen: () => {
-								Swal.showLoading();
-							},
-						});
-						setTimeout(() => {
-							Swal.close();
-							navigate("/usuarios");
-						}, 2000);
-					} else {
-						if (result.isDenied) {
-							Swal.fire({
-								icon: "info",
-								title: "Usuario no ha sido actualizado",
-								showConfirmButton: false,
-								timer: 2000,
-								didOpen: () => {
-									Swal.showLoading();
-									navigate("/usuarios");
-								},
-							});
-							setTimeout(() => {
-								Swal.close();
-								navigate("/usuarios");
-							}, 2000);
-						}
-					}
-					if (result.dismiss === Swal.DismissReason.timer) {
-						Swal.fire({
-							icon: "error",
-							title: "Se ha superado el tiempo sin una respuesta",
-							showConfirmButton: false,
-							timer: 2000,
-							didOpen: () => {
-								Swal.showLoading();
-							},
-						});
-						setTimeout(() => {
-							Swal.close();
-							navigate("/usuarios");
-						}, 2000);
-					}
-				} catch (error) {
-					let mensaje;
-					const newErrors = findFormErrors();
-
-					if (Object.keys(newErrors).length > 0) {
-						mensaje = "Error en las validaciones";
-					} else {
-						mensaje = error.response.data;
-					}
-					Swal.fire({
-						icon: "error",
-						title: mensaje,
-						showConfirmButton: false,
-						timer: 2000,
-					});
-					Swal.showLoading();
-				} finally {
-					if (data) {
-						setTimeout(() => {
-							Swal.close();
-						}, 2000);
-					}
-				}
-			});
-		} else {
+		const newErrors = findFormErrors();
+		setErrors(newErrors);
+		if (Object.keys(newErrors).length > 0) {
 			Swal.fire({
 				icon: "error",
-				title: "Usuario sin permisos",
+				title: "Error en las validaciones",
 				showConfirmButton: false,
-				timer: 1000,
 				didOpen: () => {
 					Swal.showLoading();
 				},
 			});
 			setTimeout(() => {
 				Swal.close();
-				navigate("/");
-			}, 1000);
+			}, 2000);
+			setValidated(true);
+		}else{
+					let timerInterval;
+
+					const usuario = {
+						user,
+						password,
+						rol,
+						estado,
+					};
+					if (user !== "administrador" || userUser === "administrador") {
+						Swal.fire({
+							title: "Desea Actualizar el usuario? ",
+
+							timer: 20000,
+							timerProgressBar: true,
+							showDenyButton: true,
+							showConfirmButton: true,
+							confirmButtonText: "Update",
+							denyButtonText: "Not update",
+							html:
+								"<div style='font-size:25px;'><br>Autocerrado en...... " +
+								"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
+							allowOutsideClick: false,
+							allowEscapeKey: false,
+							allowEnterKey: false,
+							didOpen: (toast) => {
+								toast.addEventListener("mouseenter", Swal.stopTimer);
+
+								toast.addEventListener("mouseleave", Swal.resumeTimer);
+
+								const b = Swal.getHtmlContainer().querySelector("b");
+								timerInterval = setInterval(() => {
+									b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
+								}, 1000);
+							},
+							willClose: () => {
+								clearInterval(timerInterval);
+							},
+						}).then(async (result) => {
+							let data = "";
+							try {
+								if (result.isConfirmed) {
+									const authheader = AuthHeaders();
+									data = await updateUsuario(userLogin, usuario, authheader);
+									Swal.fire({
+										icon: "success",
+										title: "Usuario Actualizado",
+										showConfirmButton: false,
+										timer: 2000,
+										didOpen: () => {
+											Swal.showLoading();
+										},
+									});
+									setTimeout(() => {
+										Swal.close();
+										navigate("/usuarios");
+									}, 2000);
+								} else {
+									if (result.isDenied) {
+										Swal.fire({
+											icon: "info",
+											title: "Usuario no ha sido actualizado",
+											showConfirmButton: false,
+											timer: 2000,
+											didOpen: () => {
+												Swal.showLoading();
+												navigate("/usuarios");
+											},
+										});
+										setTimeout(() => {
+											Swal.close();
+											navigate("/usuarios");
+										}, 2000);
+									}
+								}
+								if (result.dismiss === Swal.DismissReason.timer) {
+									Swal.fire({
+										icon: "error",
+										title: "Se ha superado el tiempo sin una respuesta",
+										showConfirmButton: false,
+										timer: 2000,
+										didOpen: () => {
+											Swal.showLoading();
+										},
+									});
+									setTimeout(() => {
+										Swal.close();
+										navigate("/usuarios");
+									}, 2000);
+								}
+							} catch (error) {
+								let mensaje;
+								const newErrors = findFormErrors();
+
+								if (Object.keys(newErrors).length > 0) {
+									mensaje = "Error en las validaciones";
+								} else {
+									mensaje = error.response.data;
+								}
+								Swal.fire({
+									icon: "error",
+									title: mensaje,
+									showConfirmButton: false,
+									timer: 2000,
+								});
+								Swal.showLoading();
+							} finally {
+								if (data) {
+									setTimeout(() => {
+										Swal.close();
+									}, 2000);
+								}
+							}
+						});
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Usuario sin permisos",
+							showConfirmButton: false,
+							timer: 1000,
+							didOpen: () => {
+								Swal.showLoading();
+							},
+						});
+						setTimeout(() => {
+							Swal.close();
+							navigate("/");
+						}, 1000);
+					}
 		}
+	
+
+
 	};
 
 	const pageHome = () => {
@@ -278,6 +296,9 @@ export const UpdateRegistroUsuario = () => {
 							onChange={(e) => handleOnChange(e)}
 							required
 						/>
+						<Form.Control.Feedback type="invalid">
+							{errors.name}
+						</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group className="mb-3" controlId="formBasicPassword">
@@ -291,6 +312,9 @@ export const UpdateRegistroUsuario = () => {
 							onChange={(e) => handleOnChange(e)}
 							required
 						/>
+						<Form.Control.Feedback type="invalid">
+							{errors.password}
+						</Form.Control.Feedback>
 					</Form.Group>
 					<Form.Text className="text-muted">
 						Never share your password with anyone.
@@ -309,6 +333,9 @@ export const UpdateRegistroUsuario = () => {
 							<option value="Consultor">Consultor</option>
 							<option value="Operador">Operador</option>
 						</select>
+						<Form.Control.Feedback type="invalid">
+							{errors.rol}
+						</Form.Control.Feedback>
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formBasicEstado">
 						<Form.Label>State</Form.Label>
@@ -323,6 +350,9 @@ export const UpdateRegistroUsuario = () => {
 							<option value="Activo">Activo</option>
 							<option value="Inactivo">Inactivo</option>
 						</select>
+						<Form.Control.Feedback type="invalid">
+							{errors.estado}
+						</Form.Control.Feedback>
 					</Form.Group>
 					<Form.Group className="d-flex">
 						<Button variant="primary" onClick={(e) => handleOnSubmit(e)}>

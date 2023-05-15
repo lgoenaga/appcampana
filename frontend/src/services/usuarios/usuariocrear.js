@@ -43,7 +43,6 @@ export function CrearRegistroUsuario() {
 				icon: "error",
 				title: "Usuario sin permisos",
 				showConfirmButton: false,
-				timer: 2000,
 				didOpen: () => {
 					Swal.showLoading();
 				},
@@ -51,7 +50,7 @@ export function CrearRegistroUsuario() {
 			setTimeout(() => {
 				Swal.close();
 				navigate("/");
-			}, 1000);
+			}, 2000);
 		}
 	}, [navigate, userRol]);
 
@@ -86,75 +85,67 @@ export function CrearRegistroUsuario() {
 
 		const newErrors = findFormErrors();
 		let timerInterval;
-
+		setErrors(newErrors);
 		if (Object.keys(newErrors).length > 0) {
-			setErrors(newErrors);
-		}
+			Swal.fire({
+				icon: "error",
+				title: "Error en las validaciones",
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading();
+				},
+			});
+			setTimeout(() => {
+				Swal.close();
+			}, 2000);
+			setValidated(true);
+		} else {
+			const usuario = {
+				user,
+				password,
+				rol,
+				estado,
+			};
 
-		setValidated(true);
+			Swal.fire({
+				title: "Desea guardar el usuario? ",
+				timer: 20000,
+				timerProgressBar: true,
+				showDenyButton: true,
+				showCancelButton: false,
+				showConfirmButton: true,
+				confirmButtonText: "Save",
+				denyButtonText: "Not Save",
+				html:
+					"<div style='font-size:25px;'><br>Autocerrado en...... " +
+					"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				allowEnterKey: false,
+				didOpen: (toast) => {
+					toast.addEventListener("mouseenter", Swal.stopTimer);
 
-		const usuario = {
-			user,
-			password,
-			rol,
-			estado,
-		};
+					toast.addEventListener("mouseleave", Swal.resumeTimer);
 
-		Swal.fire({
-			title: "Desea guardar el usuario? ",
-			timer: 20000,
-			timerProgressBar: true,
-			showDenyButton: true,
-			showCancelButton: false,
-			showConfirmButton: true,
-			confirmButtonText: "Save",
-			denyButtonText: "Not Save",
-			html:
-				"<div style='font-size:25px;'><br>Autocerrado en...... " +
-				"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
-			allowOutsideClick: false,
-			allowEscapeKey: false,
-			allowEnterKey: false,
-			didOpen: (toast) => {
-				toast.addEventListener("mouseenter", Swal.stopTimer);
-
-				toast.addEventListener("mouseleave", Swal.resumeTimer);
-
-				const b = Swal.getHtmlContainer().querySelector("b");
-				timerInterval = setInterval(() => {
-					b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
-				}, 1000);
-			},
-			willClose: () => {
-				clearInterval(timerInterval);
-			},
-		}).then(async (result) => {
-			let data = "";
-
-			try {
-				if (result.isConfirmed) {
-					data = await createUsuario(usuario, authheader);
-
-					Swal.fire({
-						icon: "success",
-						title: "Usuario creado",
-						showConfirmButton: false,
-						timer: 2000,
-						didOpen: () => {
-							Swal.showLoading();
-						},
-					});
-					setTimeout(() => {
-						Swal.close();
-						navigate("/usuarios");
+					const b = Swal.getHtmlContainer().querySelector("b");
+					timerInterval = setInterval(() => {
+						b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
 					}, 1000);
-				} else {
-					if (result.isDenied) {
+				},
+				willClose: () => {
+					clearInterval(timerInterval);
+				},
+			}).then(async (result) => {
+				let data = "";
+
+				try {
+					if (result.isConfirmed) {
+						data = await createUsuario(usuario, authheader);
+
 						Swal.fire({
-							icon: "info",
-							title: "Usuario no ha sido creado",
+							icon: "success",
+							title: "Usuario creado",
 							showConfirmButton: false,
-							timer: 2000,
 							didOpen: () => {
 								Swal.showLoading();
 							},
@@ -162,48 +153,61 @@ export function CrearRegistroUsuario() {
 						setTimeout(() => {
 							Swal.close();
 							navigate("/usuarios");
-						}, 1000);
+						}, 2000);
+					} else {
+						if (result.isDenied) {
+							Swal.fire({
+								icon: "info",
+								title: "Usuario no ha sido creado",
+								showConfirmButton: false,
+								didOpen: () => {
+									Swal.showLoading();
+								},
+							});
+							setTimeout(() => {
+								Swal.close();
+								navigate("/usuarios");
+							}, 2000);
+						}
 					}
-				}
-				if (result.dismiss === Swal.DismissReason.timer) {
+					if (result.dismiss === Swal.DismissReason.timer) {
+						Swal.fire({
+							icon: "error",
+							title: "Se ha superado el tiempo sin una respuesta",
+							showConfirmButton: false,
+							didOpen: () => {
+								Swal.showLoading();
+							},
+						});
+						setTimeout(() => {
+							Swal.close();
+							navigate("/usuarios");
+						}, 2000);
+					}
+				} catch (error) {
+					let mensaje;
+					const newErrors = findFormErrors();
+
+					if (Object.keys(newErrors).length > 0) {
+						mensaje = "Error en las validaciones";
+					} else {
+						mensaje = error.response.data;
+					}
 					Swal.fire({
 						icon: "error",
-						title: "Se ha superado el tiempo sin una respuesta",
+						title: mensaje,
 						showConfirmButton: false,
-						/*timer: 2000,*/
-						didOpen: () => {
-							Swal.showLoading();
-						},
 					});
-					setTimeout(() => {
-						Swal.close();
-						navigate("/usuarios");
-					}, 2000);
+					Swal.showLoading();
+				} finally {
+					if (data) {
+						setTimeout(() => {
+							Swal.close();
+						}, 2000);
+					}
 				}
-			} catch (error) {
-				let mensaje;
-				const newErrors = findFormErrors();
-
-				if (Object.keys(newErrors).length > 0) {
-					mensaje = "Error en las validaciones";
-				} else {
-					mensaje = error.response.data;
-				}
-				Swal.fire({
-					icon: "error",
-					title: mensaje,
-					showConfirmButton: false,
-					timer: 2000,
-				});
-				Swal.showLoading();
-			} finally {
-				if (data) {
-					setTimeout(() => {
-						Swal.close();
-					}, 2000);
-				}
-			}
-		});
+			});
+		}
 	};
 
 	const pageHome = () => {
