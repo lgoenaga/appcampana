@@ -140,80 +140,95 @@ export function CrearRegistroCiudadano() {
 			setTimeout(() => {
 				Swal.close();
 			}, 2000);
-		}
+			setValidated(true);
+		} else {
+			let timerInterval;
+			let data = "";
 
-		setValidated(true);
-		let timerInterval;
-		let data = "";
+			const ciudadano = {
+				identification,
+				firstName,
+				secondName,
+				firstSurname,
+				secondSurname,
+				dateBirth,
+				cellPhone,
+				phone,
+				email,
+				facebook,
+				instagram,
+				address,
+				neighborhood,
+				urbanization,
+			};
 
-		const ciudadano = {
-			identification,
-			firstName,
-			secondName,
-			firstSurname,
-			secondSurname,
-			dateBirth,
-			cellPhone,
-			phone,
-			email,
-			facebook,
-			instagram,
-			address,
-			neighborhood,
-			urbanization,
-		};
+			Swal.fire({
+				title: "Desea guardar el Ciudadano? ",
+				timer: 20000,
+				timerProgressBar: true,
+				showDenyButton: true,
+				showCancelButton: false,
+				showConfirmButton: true,
+				confirmButtonText: "Save",
+				denyButtonText: "Not Save",
+				html:
+					"<div style='font-size:25px;'><br>Autocerrado en...... " +
+					"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				allowEnterKey: false,
+				didOpen: (toast) => {
+					toast.addEventListener("mouseenter", Swal.stopTimer);
 
-		Swal.fire({
-			title: "Desea guardar el Ciudadano? ",
-			timer: 20000,
-			timerProgressBar: true,
-			showDenyButton: true,
-			showCancelButton: false,
-			showConfirmButton: true,
-			confirmButtonText: "Save",
-			denyButtonText: "Not Save",
-			html:
-				"<div style='font-size:25px;'><br>Autocerrado en...... " +
-				"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
-			allowOutsideClick: false,
-			allowEscapeKey: false,
-			allowEnterKey: false,
-			didOpen: (toast) => {
-				toast.addEventListener("mouseenter", Swal.stopTimer);
+					toast.addEventListener("mouseleave", Swal.resumeTimer);
 
-				toast.addEventListener("mouseleave", Swal.resumeTimer);
+					const b = Swal.getHtmlContainer().querySelector("b");
+					timerInterval = setInterval(() => {
+						b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
+					}, 1000);
+				},
+				willClose: () => {
+					clearInterval(timerInterval);
+				},
+			}).then(async (result) => {
+				try {
+					if (result.isConfirmed) {
+						data = await createCiudadano(ciudadano, authheader);
 
-				const b = Swal.getHtmlContainer().querySelector("b");
-				timerInterval = setInterval(() => {
-					b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
-				}, 1000);
-			},
-			willClose: () => {
-				clearInterval(timerInterval);
-			},
-		}).then(async (result) => {
-			try {
-				if (result.isConfirmed) {
-					data = await createCiudadano(ciudadano, authheader);
-
-					Swal.fire({
-						icon: "success",
-						title: "Ciudadano creado",
-						showConfirmButton: false,
-						timer: 2000,
-						didOpen: () => {
-							Swal.showLoading();
-						},
-					});
-					setTimeout(() => {
-						Swal.close();
-						navigate("/contactos");
-					}, 2000);
-				} else {
-					if (result.isDenied) {
 						Swal.fire({
-							icon: "info",
-							title: "Ciudadano no ha sido creado",
+							icon: "success",
+							title: "Ciudadano creado",
+							showConfirmButton: false,
+							timer: 2000,
+							didOpen: () => {
+								Swal.showLoading();
+							},
+						});
+						setTimeout(() => {
+							Swal.close();
+							navigate("/contactos");
+						}, 2000);
+					} else {
+						if (result.isDenied) {
+							Swal.fire({
+								icon: "info",
+								title: "Ciudadano no ha sido creado",
+								showConfirmButton: false,
+								timer: 2000,
+								didOpen: () => {
+									Swal.showLoading();
+								},
+							});
+							setTimeout(() => {
+								Swal.close();
+								navigate("/contactos");
+							}, 2000);
+						}
+					}
+					if (result.dismiss === Swal.DismissReason.timer) {
+						Swal.fire({
+							icon: "error",
+							title: "Se ha superado el tiempo sin una respuesta",
 							showConfirmButton: false,
 							timer: 2000,
 							didOpen: () => {
@@ -225,46 +240,31 @@ export function CrearRegistroCiudadano() {
 							navigate("/contactos");
 						}, 2000);
 					}
-				}
-				if (result.dismiss === Swal.DismissReason.timer) {
+				} catch (error) {
+					let mensaje;
+					const newErrors = findFormErrors();
+
+					if (Object.keys(newErrors).length > 0) {
+						mensaje = "Error en las validaciones";
+					} else {
+						mensaje = error.response.data;
+					}
 					Swal.fire({
 						icon: "error",
-						title: "Se ha superado el tiempo sin una respuesta",
+						title: mensaje,
 						showConfirmButton: false,
 						timer: 2000,
-						didOpen: () => {
-							Swal.showLoading();
-						},
 					});
-					setTimeout(() => {
-						Swal.close();
-						navigate("/contactos");
-					}, 2000);
+					Swal.showLoading();
+				} finally {
+					if (data) {
+						setTimeout(() => {
+							Swal.close();
+						}, 2000);
+					}
 				}
-			} catch (error) {
-				let mensaje;
-				const newErrors = findFormErrors();
-
-				if (Object.keys(newErrors).length > 0) {
-					mensaje = "Error en las validaciones";
-				} else {
-					mensaje = error.response.data;
-				}
-				Swal.fire({
-					icon: "error",
-					title: mensaje,
-					showConfirmButton: false,
-					timer: 2000,
-				});
-				Swal.showLoading();
-			} finally {
-				if (data) {
-					setTimeout(() => {
-						Swal.close();
-					}, 2000);
-				}
-			}
-		});
+			});
+		}
 	};
 
 	const pageHome = () => {
@@ -480,12 +480,11 @@ export function CrearRegistroCiudadano() {
 				>
 					Guardar
 				</Button>
-			</Container>
-			<div className="btninicio">
 				<Button variant="primary" onClick={pageHome}>
 					INICIO
 				</Button>
-			</div>
+			</Container>
+
 		</>
 	);
 }

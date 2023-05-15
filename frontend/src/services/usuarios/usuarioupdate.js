@@ -89,7 +89,7 @@ export const UpdateRegistroUsuario = () => {
 				icon: "error",
 				title: "Usuario sin permisos",
 				showConfirmButton: false,
-				timer: 1000,
+
 				didOpen: () => {
 					Swal.showLoading();
 				},
@@ -258,7 +258,6 @@ export const UpdateRegistroUsuario = () => {
 							icon: "error",
 							title: "Usuario sin permisos",
 							showConfirmButton: false,
-							timer: 1000,
 							didOpen: () => {
 								Swal.showLoading();
 							},

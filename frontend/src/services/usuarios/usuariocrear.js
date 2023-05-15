@@ -50,7 +50,7 @@ export function CrearRegistroUsuario() {
 			setTimeout(() => {
 				Swal.close();
 				navigate("/");
-			}, 2000);
+			}, 1000);
 		}
 	}, [navigate, userRol]);
 
