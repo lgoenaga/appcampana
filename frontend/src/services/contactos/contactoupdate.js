@@ -77,7 +77,6 @@ export const UpdateCiudadano = () => {
 				Swal.close();
 				navigate("/");
 			}, 1000);
-			console.log("Usuario no tiene permisos");
 		}
 	}, [documentoId, navigate, userRol]);
 
@@ -139,7 +138,7 @@ export const UpdateCiudadano = () => {
 
 	const handleOnSubmit = async (event) => {
 		event.preventDefault();
-
+		const form = event.currentTarget;
 		const ciudadano = {
 			identification,
 			firstName,
@@ -156,8 +155,6 @@ export const UpdateCiudadano = () => {
 			neighborhood,
 			urbanization,
 		};
-
-		const form = event.currentTarget;
 
 		if (form.checkValidity() === false) {
 			event.stopPropagation();
@@ -179,15 +176,34 @@ export const UpdateCiudadano = () => {
 			}, 2000);
 			setValidated(true);
 		} else {
+			let timerInterval;
 			Swal.fire({
 				title: "Desea Actualizar el Ciudadano? ",
-				html: "Updating will be canceled in 10 <strong></strong> seconds.",
-				timer: 10000,
+				timer: 20000,
 				timerProgressBar: true,
 				showDenyButton: true,
 				showConfirmButton: true,
 				confirmButtonText: "Update",
 				denyButtonText: "Not update",
+				html:
+					"<div style='font-size:25px;'><br>Autocerrado en...... " +
+					"<div style='color:red;'><br> <b></b>  Segundos <br><br><br></div></div>",
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				allowEnterKey: false,
+				didOpen: (toast) => {
+					toast.addEventListener("mouseenter", Swal.stopTimer);
+
+					toast.addEventListener("mouseleave", Swal.resumeTimer);
+
+					const b = Swal.getHtmlContainer().querySelector("b");
+					timerInterval = setInterval(() => {
+						b.textContent = Math.trunc(Swal.getTimerLeft() / 1000);
+					}, 1000);
+				},
+				willClose: () => {
+					clearInterval(timerInterval);
+				},
 			}).then(async (result) => {
 				let data = "";
 				try {

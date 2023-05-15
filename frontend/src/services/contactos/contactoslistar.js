@@ -9,81 +9,83 @@ import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
 
 export const ListCiudadanos = () => {
-  const [ciudadanos, setCiudadanos] = useState([]);
-  const navigate = useNavigate();
+	const [ciudadanos, setCiudadanos] = useState([]);
+	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = useState(0);
 	const [pageActual, setPageActual] = useState(1);
 
-  useEffect(() => {
-    try {
-      const authheader = AuthHeaders();
-      const vacio = localStorage.getItem(
-        "Authorization"
-      );
-      if (vacio!=null) {
-        const mostrarCiudadanos = async () => {
-          try {
-            const { data } = await listCiudadanos(authheader);
-            setCiudadanos(data);
-          } catch (error) {
-            const request = Object.values(error);
-            const message = request[2];
-            const respuesta = message.data.status.error.httpCode;
-            const mensaje =  message.data.status.error.messages[0];
-            const txt = respuesta + ", " + mensaje + ": " + message.data.status.error.code;
-              Swal.fire({
-              icon: "error",
-              title: txt,
-              showConfirmButton: false,
-              timer: 2000,
-              didOpen: () => {
-                Swal.showLoading();
-              },
-            });
-            setTimeout(() => {
-              Swal.close();
-              navigate("/");
-            }, 1000);
-          }
-        };
-        Swal.fire({
-          icon: "info",
-          title: "Listando contactos",
-          showConfirmButton: false,
-          timer: 1000,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-        setTimeout(() => {
-          Swal.close();
-          mostrarCiudadanos();
-        }, 1000);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Usuario sin permisos",
-          showConfirmButton: false,
-          timer: 1000,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-        setTimeout(() => {
-          Swal.close();
-          navigate("/");
-        }, 1000);
+	useEffect(() => {
+		try {
+			const authheader = AuthHeaders();
+			const vacio = localStorage.getItem("Authorization");
+			if (vacio != null) {
+				const mostrarCiudadanos = async () => {
+					try {
+						const { data } = await listCiudadanos(authheader);
+						setCiudadanos(data);
+					} catch (error) {
+						const request = Object.values(error);
+						const message = request[2];
+						const respuesta = message.data.status.error.httpCode;
+						const mensaje = message.data.status.error.messages[0];
+						const txt =
+							respuesta +
+							", " +
+							mensaje +
+							": " +
+							message.data.status.error.code;
+						Swal.fire({
+							icon: "error",
+							title: txt,
+							showConfirmButton: false,
+							timer: 2000,
+							didOpen: () => {
+								Swal.showLoading();
+							},
+						});
+						setTimeout(() => {
+							Swal.close();
+							navigate("/");
+						}, 1000);
+					}
+				};
+				Swal.fire({
+					icon: "info",
+					title: "Listando contactos",
+					showConfirmButton: false,
+					timer: 1000,
+					didOpen: () => {
+						Swal.showLoading();
+					},
+				});
+				setTimeout(() => {
+					Swal.close();
+					mostrarCiudadanos();
+				}, 1000);
+			} else {
+				Swal.fire({
+					icon: "error",
+					title: "Usuario sin permisos",
+					showConfirmButton: false,
+					timer: 1000,
+					didOpen: () => {
+						Swal.showLoading();
+					},
+				});
+				setTimeout(() => {
+					Swal.close();
+					navigate("/");
+				}, 1000);
+			}
+		} catch (error) {
+			console.log(
+				"Error desde el servidor verificar backend  listar usuarios",
+				error
+			);
+		}
+	}, [navigate]);
 
-      }
-    } catch (error) {
-      console.log(
-        "Error desde el servidor verificar backend  listar usuarios",
-        error
-      );
-    }
-  }, [navigate]);
-
-  const btnnext = document.getElementById("btn-next");
+	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
 	let page = ciudadanos.length / 12;
 
@@ -115,20 +117,20 @@ export const ListCiudadanos = () => {
 		}
 	};
 
-  const DataTable = () => {
-    let noReg = 1;
+	const DataTable = () => {
+		let noReg = 1;
 
-    return ciudadanos.map((res, i) => {
-      res.noReg = noReg++;
-      return <TableContactos obj={res} key={i} />;
-    });
-  };
+		return ciudadanos.map((res, i) => {
+			res.noReg = noReg++;
+			return <TableContactos obj={res} key={i} />;
+		});
+	};
 
-  	const pageHome = () => {
-			navigate("/inicio");
-		};
+	const pageHome = () => {
+		navigate("/inicio");
+	};
 
-  return (
+	return (
 		<div>
 			<div className="paginacion">
 				<button

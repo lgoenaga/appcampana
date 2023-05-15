@@ -14,18 +14,14 @@ import { AuthHeaders } from "../../components/authheader";
 import { MostrarRol } from "../../components/decodec";
 
 export function CrearRegistroCiudadano() {
+
 	const navigate = useNavigate();
 	const [validated, setValidated] = useState(false);
-
 	const [valoresForm, setValoresForm] = useState({});
-	//const [formValidation, setformValidation] = useState({});
-
 	const [errors, setErrors] = useState({});
-
 	const authheader = AuthHeaders();
 
 	let userToken = MostrarRol();
-
 	let userRol = userToken.rol;
 
 	useEffect(() => {
@@ -44,7 +40,6 @@ export function CrearRegistroCiudadano() {
 				icon: "error",
 				title: "Usuario sin permisos",
 				showConfirmButton: false,
-				timer: 2000,
 				didOpen: () => {
 					Swal.showLoading();
 				},
@@ -52,7 +47,7 @@ export function CrearRegistroCiudadano() {
 			setTimeout(() => {
 				Swal.close();
 				navigate("/");
-			}, 2000);
+			}, 1000);
 		}
 	}, [navigate, userRol]);
 
@@ -108,7 +103,6 @@ export function CrearRegistroCiudadano() {
 	const handleOnChange = ({ target }) => {
 		const { name, value } = target;
 		setValoresForm({ ...valoresForm, [name]: value });
-		//   setformValidation({ ...valoresForm, [name]: value });
 	};
 
 	const handleOnSubmit = async (event) => {

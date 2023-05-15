@@ -1,16 +1,15 @@
 import React from "react";
-import { UpdateCiudadano } from "../../services/contactos/contactoupdate";
-//import BarraNavegacion from "../../components/header";
+import { UpdateTestigo } from "../../services/testigos/testigoupdate";
 import Footer from "../../components/footer";
 
-const ViewUpdateCiudadano = () => {
+const ViewUpdateTestigo = () => {
   return (
-    <>
-      <h1>ACTUALIZAR CIUDADANO</h1>
-      <UpdateCiudadano />
-      <Footer />
-    </>
-  );
+		<>
+			<h1>ACTUALIZAR TESTIGO</h1>
+			<UpdateTestigo />
+			<Footer />
+		</>
+	);
 };
 
-export default ViewUpdateCiudadano;
+export default ViewUpdateTestigo;

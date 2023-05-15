@@ -101,7 +101,6 @@ const TableTestigos = (props) => {
         icon: "error",
         title: "Usuario sin permisos",
         showConfirmButton: false,
-        timer: 1000,
         didOpen: () => {
           Swal.showLoading();      
         },
@@ -110,7 +109,6 @@ const TableTestigos = (props) => {
         Swal.close();
         navigate("/");
       }, 1000);
-      console.log('Usuario no tiene permisos');
     }
   };
 
