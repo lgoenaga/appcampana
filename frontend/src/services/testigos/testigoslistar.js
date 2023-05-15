@@ -13,11 +13,9 @@ export const ListTestigos = () => {
   useEffect(() => {
     try {
       const authheader = AuthHeaders();
-      const vacio = localStorage.getItem(
-        "Authorization"
-      );
-      if (vacio!=null) {
-        const mostrarTestigos= async () => {
+      const vacio = localStorage.getItem("Authorization");
+      if (vacio != null) {
+        const mostrarTestigos = async () => {
           try {
             const { data } = await listTestigos(authheader);
             setTestigos(data);
@@ -25,9 +23,14 @@ export const ListTestigos = () => {
             const request = Object.values(error);
             const message = request[2];
             const respuesta = message.data.status.error.httpCode;
-            const mensaje =  message.data.status.error.messages[0];
-            const txt = respuesta + ", " + mensaje + ": " + message.data.status.error.code;
-              Swal.fire({
+            const mensaje = message.data.status.error.messages[0];
+            const txt =
+              respuesta +
+              ", " +
+              mensaje +
+              ": " +
+              message.data.status.error.code;
+            Swal.fire({
               icon: "error",
               title: txt,
               showConfirmButton: false,
@@ -38,7 +41,6 @@ export const ListTestigos = () => {
             });
             setTimeout(() => {
               Swal.close();
-              navigate("/inicio");
             }, 1000);
           }
         };
@@ -69,7 +71,6 @@ export const ListTestigos = () => {
           Swal.close();
           navigate("/");
         }, 1000);
-
       }
     } catch (error) {
       console.log(
@@ -120,8 +121,8 @@ export const ListTestigos = () => {
         <tbody className="table-group-divider">{DataTable()}</tbody>
       </table>
       <Button variant="primary" onClick={pageHome} className="btninicio">
-          INICIO
-        </Button>
+        INICIO
+      </Button>
     </div>
   );
 };

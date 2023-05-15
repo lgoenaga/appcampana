@@ -53,31 +53,51 @@ function BarraNavegacion() {
 
                 <NavDropdown
                   title=<span>
-                    <MdSupervisorAccount /> Gestionar Ciudadanos
+                    <MdSupervisorAccount /> Ciudadanos
                   </span>
                   id="collasible-nav-dropdown2"
                 >
                   <NavDropdown.Divider />
-
-                  <Nav.Link href="/contactos/crear">
-                  {" "}
-                  <FaRegAddressCard /> Registro Ciudadano
-                </Nav.Link>
+                  <NavDropdown.Item href="/contactos/crear">
+                  <FaRegAddressCard /> Crear Ciudadano
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/contactos">
                   <MdOutlineHowToVote /> Listar Ciudadano
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/Contactos/contactar">
-                    <FaBlenderPhone/> Contactar Ciudadano
+                  <NavDropdown.Divider />
+                </NavDropdown>
+
+                <NavDropdown
+                  title=<span>
+                    <MdSupervisorAccount /> Testigos
+                  </span>
+                  id="collasible-nav-dropdown2"
+                >
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/testigos/crear">
+                  <FaRegAddressCard /> Crear testigos
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/testigos">
+                  <MdOutlineHowToVote /> Listar testigos
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                 </NavDropdown>
-                <Nav.Link href="/lugarvotacion">
-                  <MdOutlineHowToVote /> Lugar de Votación
-                </Nav.Link>
-                <Nav.Link href="/asistencia">
-                  <FaRegCalendarPlus /> Registro de Asistencia
-                </Nav.Link>
 
+                <NavDropdown
+                  title=<span>
+                    <MdSupervisorAccount /> Lugar de Votación
+                  </span>
+                  id="collasible-nav-dropdown2"
+                >
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/asignar-testigo/crear">
+                  <FaRegAddressCard /> Asignar testigos
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/asignar-ciudadano/crear">
+                  <MdOutlineHowToVote /> Asignar Ciudadano
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                </NavDropdown>
               </Nav>
             </Navbar.Collapse>
           </Navbar>

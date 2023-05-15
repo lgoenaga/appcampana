@@ -29,6 +29,18 @@ button.btn.btn-primary{
   align-items: center;
   align-self: center;
   
+  
+}
+
+.btninicio{
+display: flex;
+justify-content: center;
+margin-top: 25px;
+padding: 10px;
+}
+
+.btninicio button.btn.btn-primary{
+  width: 200px;
 }
 
 .d-flex {

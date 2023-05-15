@@ -75,12 +75,21 @@ router.get("/", validateJWT, async function (req, res) {
   console.clear();
 
   const role = req.payload.rol;
+  const status = req.payload.rol;
 
   try {
-  
+
+    if (role==='Administrador'){
       console.info("Usuarios Listados");
       const usuarios = await Usuario.find();
       return res.status(200).send(usuarios);
+      
+    }else{
+
+      console.info("Usuarios Listados");
+      const usuarios = await Usuario.find({estado: 'Activo'});
+      return res.status(200).send(usuarios);
+    } 
     
   } catch (error) {
     console.error("Usuarios no se han podido listar \n", error);
