@@ -20,6 +20,10 @@ import ViewTestigoCrear from './views/testigos/testigocrear';
 import ViewTestigos from "./views/testigos/testigolistar";
 import ViewUpdateTestigo from "./views/testigos/testigoupdate";
 
+import ViewLugares from "./views/lugarvotacion/lugarlistar";
+import ViewUpdateLugar from "./views/lugarvotacion/lugarupdate";
+import ViewCrearLugar from "./views/lugarvotacion/lugarcrear";
+
 
 const Rutas = () => {
   return (
@@ -28,7 +32,6 @@ const Rutas = () => {
 				<Route path="*" element={<ViewLogin />} />
 				<Route exact path="/" element={<ViewLogin />} />
 				<Route exact path="/inicio" element={<ViewAdministracion />} />
-
 				<Route exact path="/contactos" element={<ViewContactos />} />
 				<Route
 					exact
@@ -40,7 +43,6 @@ const Rutas = () => {
 					path="/contactos/:documentoId"
 					element={<ViewUpdateCiudadano />}
 				/>
-
 				<Route exact path="/usuarios" element={<ViewUsuarios />} />
 				<Route extact path="/usuarios/crear" element={<ViewCrearUsuario />} />
 				<Route
@@ -48,7 +50,6 @@ const Rutas = () => {
 					path="/usuarios/:userLogin"
 					element={<ViewUpdateUsuario />}
 				/>
-
 				<Route extact path="/testigos" element={<ViewTestigos />} />
 				<Route extact path="/testigos/crear" element={<ViewTestigoCrear />} />
 				<Route
@@ -56,7 +57,10 @@ const Rutas = () => {
 					path="/testigos/:documentoId"
 					element={<ViewUpdateTestigo />}
 				/>
-
+				<Route exact path="/lugares" element={<ViewLugares />} />
+				<Route exact path="/lugares/:id" element={<ViewUpdateLugar />} />
+				<Route exact path="/lugares/crear" element={<ViewCrearLugar />} />
+				
 				<Route exact path="/lugarvotacion" element={<ViewLugarVotacion />} />
 				<Route exact path="/Contactos/contactar" element={<ViewContactar />} />
 				<Route exact path="/asistencia" element={<ViewAsistencia />} />

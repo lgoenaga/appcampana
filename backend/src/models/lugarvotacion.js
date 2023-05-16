@@ -21,7 +21,7 @@ const lugarElectoral = new Schema(
     },
     numberPollingStation: {
       type: Number,
-      required: false,
+      required: true,
     },
     availablePollingStation: {
       type: Number,

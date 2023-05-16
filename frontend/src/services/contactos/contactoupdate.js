@@ -26,6 +26,8 @@ export const UpdateCiudadano = () => {
 	let userToken = MostrarRol();
 
 	let userRol = userToken.rol;
+
+
 	const {
 		identification = "",
 		firstName = "",
@@ -44,7 +46,7 @@ export const UpdateCiudadano = () => {
 	} = valoresForm;
 
 	useEffect(() => {
-		if (userRol === "Administrador" || userRol === "Editor") {
+		if (userRol === "Administrador" || userRol === "Operador") {
 			const mostrarcontacto = async () => {
 				try {
 					const { data } = await getCiudadano(documentoId);

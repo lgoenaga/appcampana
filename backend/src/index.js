@@ -22,7 +22,7 @@ app.use("/candidatos", require("./routers/candidatos"));
 app.use("/testigos", require("./routers/testigos"));
 app.use("/usuarios", require("./routers/usuarios"));
 app.use("/login", require("./routers/login"));
-app.use("/lugares-electorales", require("./routers/lugarvotacion"));
+app.use("/lugares", require("./routers/lugarvotacion"));
 app.use("/asignar-testigos", require("./routers/asisganaciontestigos"));
 
 
