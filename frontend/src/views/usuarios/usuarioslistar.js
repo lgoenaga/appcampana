@@ -5,13 +5,14 @@ import Footer from "../../components/footer";
 
 const ViewUsuarios = () => {
   return (
-    <>
-      <BarraNavegacion />
-      <ListUsuarios />
+		<>
+			<BarraNavegacion />
+			<h1>USUARIOS</h1>
+			<ListUsuarios />
 
-      <Footer />
-    </>
-  );
+			<Footer />
+		</>
+	);
 };
 
 export default ViewUsuarios;

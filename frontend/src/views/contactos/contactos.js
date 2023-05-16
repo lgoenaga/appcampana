@@ -5,12 +5,13 @@ import Footer from "../../components/footer";
 
 const ViewContactos = () => {
   return (
-    <>
-      <BarraNavegacion />
-      <ListCiudadanos />
-      <Footer />
-    </>
-  );
+		<>
+			<BarraNavegacion />
+			<h1>CIUDADANOS</h1>
+			<ListCiudadanos />
+			<Footer />
+		</>
+	);
 };
 
 export default ViewContactos;

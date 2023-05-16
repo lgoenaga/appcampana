@@ -7,7 +7,7 @@ const ViewUpdateLugar = () => {
   return (
 		<>
 			<BarraNavegacion />
-			<h1>ACTUALIZAR LUGAR</h1>
+			<h1>ACTUALIZAR LUGAR DE VOTACION</h1>
 			<UpdateLugar />
 			<Footer />
 		</>

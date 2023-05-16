@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../img/logo.png";
 import { VscSettingsGear } from "react-icons/vsc";
-import { FaRegAddressCard, FaChild } from "react-icons/fa";
+import { FaRegAddressCard} from "react-icons/fa";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -97,14 +97,23 @@ function BarraNavegacion() {
 										<MdOutlineHowToVote /> Listar lugar
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
+								</NavDropdown>
+
+								<NavDropdown
+									title=<span>
+										<MdSupervisorAccount /> Asignar testigos
+									</span>
+									id="collasible-nav-dropdown2"
+								>
 									<NavDropdown.Divider />
-									<NavDropdown.Item href="/asignar-testigo/crear">
-										<FaChild /> Asignar testigos
+									<NavDropdown.Item href="/asignartestigo/crear">
+										<FaRegAddressCard /> Crear Asignación
 									</NavDropdown.Item>
-									<NavDropdown.Item href="/asignar-ciudadano/crear">
-										<FaChild /> Asignar Ciudadano
+									<NavDropdown.Item href="/asignartestigo">
+										<MdOutlineHowToVote /> Listar Asignados
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
+
 								</NavDropdown>
 							</Nav>
 						</Navbar.Collapse>

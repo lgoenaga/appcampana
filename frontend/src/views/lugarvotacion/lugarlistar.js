@@ -7,6 +7,7 @@ const ViewLugares = () => {
   return (
 		<>
 			<BarraNavegacion />
+			<h1>LUGARES DE VOTACIÓN</h1>
 			<ListLugares />
 			<Footer />
 		</>

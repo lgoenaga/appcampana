@@ -20,18 +20,19 @@ import ViewLugares from "./views/lugarvotacion/lugarlistar";
 import ViewUpdateLugar from "./views/lugarvotacion/lugarupdate";
 import ViewCrearLugar from "./views/lugarvotacion/lugarcrear";
 
+import ViewAsignarTestigo from "./views/asignartestigo/asignartestigolistar";
+import ViewUpdateAsignarTestigo from "./views/asignartestigo/asignartestigoupdate";
+import ViewCrearAsignarTestigo from "./views/asignartestigo/asignartestigocrear";
+
 
 const Rutas = () => {
   return (
 		<div className="container-app noMostrarRutas">
 			<Routes>
-
 				<Route path="*" element={<ViewLogin />} />
 				<Route exact path="/" element={<ViewLogin />} />
 				<Route exact path="/login" element={<ViewLogin />} />
-
 				<Route exact path="/inicio" element={<ViewAdministracion />} />
-
 				<Route exact path="/contactos" element={<ViewContactos />} />
 				<Route
 					exact
@@ -43,7 +44,6 @@ const Rutas = () => {
 					path="/contactos/:documentoId"
 					element={<ViewUpdateCiudadano />}
 				/>
-
 				<Route exact path="/usuarios" element={<ViewUsuarios />} />
 				<Route extact path="/usuarios/crear" element={<ViewCrearUsuario />} />
 				<Route
@@ -51,7 +51,6 @@ const Rutas = () => {
 					path="/usuarios/:userLogin"
 					element={<ViewUpdateUsuario />}
 				/>
-
 				<Route extact path="/testigos" element={<ViewTestigos />} />
 				<Route extact path="/testigos/crear" element={<ViewTestigoCrear />} />
 				<Route
@@ -59,11 +58,20 @@ const Rutas = () => {
 					path="/testigos/:documentoId"
 					element={<ViewUpdateTestigo />}
 				/>
-
 				<Route exact path="/lugares" element={<ViewLugares />} />
 				<Route exact path="/lugares/:id" element={<ViewUpdateLugar />} />
 				<Route exact path="/lugares/crear" element={<ViewCrearLugar />} />
-
+				<Route exact path="/asignartestigo" element={<ViewAsignarTestigo />} />
+				<Route
+					exact
+					path="/asignartestigo/:id"
+					element={<ViewUpdateAsignarTestigo />}
+				/>
+				<Route
+					exact
+					path="/asignartestigo/crear"
+					element={<ViewCrearAsignarTestigo />}
+				/>
 			</Routes>
 		</div>
 	);

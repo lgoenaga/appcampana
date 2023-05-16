@@ -23,7 +23,7 @@ app.use("/testigos", require("./routers/testigos"));
 app.use("/usuarios", require("./routers/usuarios"));
 app.use("/login", require("./routers/login"));
 app.use("/lugares", require("./routers/lugarvotacion"));
-app.use("/asignar-testigos", require("./routers/asisganaciontestigos"));
+app.use("/asignartestigo", require("./routers/asisganaciontestigos"));
 
 
 

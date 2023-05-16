@@ -5,12 +5,13 @@ import Footer from "../../components/footer";
 
 const ViewTestigos = () => {
   return (
-    <>
-      <BarraNavegacion />
-      <ListTestigos />
-      <Footer />
-    </>
-  );
+		<>
+			<BarraNavegacion />
+			<h1>TESTIGOS</h1>
+			<ListTestigos />
+			<Footer />
+		</>
+	);
 };
 
 export default ViewTestigos;
