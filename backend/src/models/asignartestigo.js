@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const asiganacionTestigo = new Schema(
+const asignacionTestigo = new Schema(
   {
     polling: {
         type: Schema.Types.ObjectId,
@@ -21,7 +21,7 @@ const asiganacionTestigo = new Schema(
   
       status:{
         type: String,
-        required: true,
+        required: false,
         enum:[
             'Asignada',
             'Disponible',
@@ -43,4 +43,4 @@ const asiganacionTestigo = new Schema(
   }
 );
 
-module.exports = mongoose.model("asiganaciontestigo", asiganacionTestigo );
+module.exports = mongoose.model("asignaciontestigo", asignacionTestigo);

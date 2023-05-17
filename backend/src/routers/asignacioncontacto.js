@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const asiganacionTestigo = require("../models/asignartestigo");
+const asignacionContacto = require("../models/asignarcontacto");
 const lugarElectoral = require ('../models/lugarvotacion');
 const moment = require("moment");
 /*const { checkValidateLugar } = require("../helpers/validatelugar");*/
@@ -12,17 +12,18 @@ router.get("/", validateJWT, async function (req, res) {
 
   try{
 
-  const witnessAssignments = await asiganacionTestigo.find().populate([
-    {
-      path: 'polling', select: 'pollingStation numberPollingStation availablePollingStation unavailablePollingStation'
-  },
-  {
-    path: 'witness', select: 'identification firstName firstSurname'
-},
-],
-);
+  const voterAssignments = await asignacionContacto.find().populate([
+		{
+			path: "polling",
+			select: "pollingStation address department township",
+		},
+		{
+			path: "voter",
+			select: "identification firstName firstSurname",
+		},
+	]);
 
-res.status(200).send(witnessAssignments);
+res.status(200).send(voterAssignments);
 
    
   } catch (error) {

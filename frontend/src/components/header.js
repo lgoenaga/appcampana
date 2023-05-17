@@ -1,15 +1,15 @@
 import React from "react";
 import logo from "../img/logo.png";
 import { VscSettingsGear } from "react-icons/vsc";
-import { FaRegAddressCard} from "react-icons/fa";
+import { FaRegAddressCard } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { MdOutlineHowToVote, MdSupervisorAccount } from "react-icons/md";
 
 function BarraNavegacion() {
-
-  return (
+	return (
 		<header className="header-navbar">
 			<div className="row-one">
 				<div className="col-one-img">
@@ -36,84 +36,97 @@ function BarraNavegacion() {
 							<Nav className="me-auto">
 								<NavDropdown
 									title=<span>
-										<VscSettingsGear /> Usuarios
+										<VscSettingsGear /> Administracion
 									</span>
 									id="collasible-nav-dropdown"
 								>
 									<NavDropdown.Divider />
-									<NavDropdown.Item href="/usuarios/crear">
-										<FaRegAddressCard /> Crear Usuario
-									</NavDropdown.Item>
-									<NavDropdown.Item href="/usuarios">
-										<MdOutlineHowToVote /> Listar Usuario
-									</NavDropdown.Item>
+									<NavDropdown
+										title=<span>
+											<MdSupervisorAccount /> Usuarios
+										</span>
+										id="collasible-nav-dropdown"
+									>
+										<NavDropdown.Divider />
+										<NavDropdown.Item href="/usuarios/crear">
+											<FaRegAddressCard /> Crear Usuario
+										</NavDropdown.Item>
+										<NavDropdown.Item href="/usuarios">
+											<MdOutlineHowToVote /> Listar Usuario
+										</NavDropdown.Item>
+
+										<NavDropdown.Divider />
+									</NavDropdown>
+
+									<NavDropdown
+										title=<span>
+											<MdSupervisorAccount /> Ciudadanos
+										</span>
+										id="collasible-nav-dropdown2"
+									>
+										<NavDropdown.Divider />
+										<NavDropdown.Item href="/contactos/crear">
+											<FaRegAddressCard /> Crear Ciudadano
+										</NavDropdown.Item>
+										<NavDropdown.Item href="/contactos">
+											<MdOutlineHowToVote /> Listar Ciudadano
+										</NavDropdown.Item>
+										<NavDropdown.Divider />
+									</NavDropdown>
+
+									<NavDropdown
+										title=<span>
+											<MdSupervisorAccount /> Testigos
+										</span>
+										id="collasible-nav-dropdown2"
+									>
+										<NavDropdown.Divider />
+										<NavDropdown.Item href="/testigos/crear">
+											<FaRegAddressCard /> Crear testigos
+										</NavDropdown.Item>
+										<NavDropdown.Item href="/testigos">
+											<MdOutlineHowToVote /> Listar testigos
+										</NavDropdown.Item>
+										<NavDropdown.Divider />
+									</NavDropdown>
+
+									<NavDropdown
+										title=<span>
+											<MdSupervisorAccount /> Lugar de Votación
+										</span>
+										id="collasible-nav-dropdown2"
+									>
+										<NavDropdown.Divider />
+										<NavDropdown.Item href="/lugares/crear">
+											<FaRegAddressCard /> Crear lugar
+										</NavDropdown.Item>
+										<NavDropdown.Item href="/lugares">
+											<MdOutlineHowToVote /> Listar lugares
+										</NavDropdown.Item>
+										<NavDropdown.Divider />
+									</NavDropdown>
 
 									<NavDropdown.Divider />
 								</NavDropdown>
 
-								<NavDropdown
-									title=<span>
-										<MdSupervisorAccount /> Ciudadanos
-									</span>
-									id="collasible-nav-dropdown2"
-								>
-									<NavDropdown.Divider />
-									<NavDropdown.Item href="/contactos/crear">
-										<FaRegAddressCard /> Crear Ciudadano
-									</NavDropdown.Item>
-									<NavDropdown.Item href="/contactos">
-										<MdOutlineHowToVote /> Listar Ciudadano
-									</NavDropdown.Item>
-									<NavDropdown.Divider />
-								</NavDropdown>
+								<Nav.Link href="/contactos/crear">
+									<FaRegAddressCard /> Registro Ciudadano
+								</Nav.Link>
 
 								<NavDropdown
 									title=<span>
-										<MdSupervisorAccount /> Testigos
-									</span>
-									id="collasible-nav-dropdown2"
-								>
-									<NavDropdown.Divider />
-									<NavDropdown.Item href="/testigos/crear">
-										<FaRegAddressCard /> Crear testigos
-									</NavDropdown.Item>
-									<NavDropdown.Item href="/testigos">
-										<MdOutlineHowToVote /> Listar testigos
-									</NavDropdown.Item>
-									<NavDropdown.Divider />
-								</NavDropdown>
-
-								<NavDropdown
-									title=<span>
-										<MdSupervisorAccount /> Lugar de Votación
-									</span>
-									id="collasible-nav-dropdown2"
-								>
-									<NavDropdown.Divider />
-									<NavDropdown.Item href="/lugares/crear">
-										<FaRegAddressCard /> Crear lugar
-									</NavDropdown.Item>
-									<NavDropdown.Item href="/lugares">
-										<MdOutlineHowToVote /> Listar lugar
-									</NavDropdown.Item>
-									<NavDropdown.Divider />
-								</NavDropdown>
-
-								<NavDropdown
-									title=<span>
-										<MdSupervisorAccount /> Asignar testigos
+										<MdLocationOn /> Lugar Votación
 									</span>
 									id="collasible-nav-dropdown2"
 								>
 									<NavDropdown.Divider />
 									<NavDropdown.Item href="/asignartestigo/crear">
-										<FaRegAddressCard /> Crear Asignación
+										<MdOutlineHowToVote /> Asignar Testigo
 									</NavDropdown.Item>
 									<NavDropdown.Item href="/asignartestigo">
-										<MdOutlineHowToVote /> Listar Asignados
+										<MdOutlineHowToVote /> Testigos Asignados
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
-
 								</NavDropdown>
 							</Nav>
 						</Navbar.Collapse>

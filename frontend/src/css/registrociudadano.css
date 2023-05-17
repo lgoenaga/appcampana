@@ -88,6 +88,10 @@ h1 {
   text-align: center;
 }
 
+.oculto{
+  display: none;
+}
+
 @media (max-width: 794px) {
   .Formulaio-Contactos {
     font-size: xx-small;

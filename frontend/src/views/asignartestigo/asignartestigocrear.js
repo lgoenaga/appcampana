@@ -8,7 +8,7 @@ const ViewCrearAsignarTestigo = () => {
 	return (
 		<>
 			<BarraNavegacion />
-			<h1>CREAR ASIGNACIÓN DE TESTIGO</h1>
+			<h1>ASIGNACIÓN DE TESTIGO LUGAR Y MESA DE VOTACIÓN</h1>
 			<CreateAsignarTestigo />
 			<Footer />
 		</>

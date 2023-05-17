@@ -7,7 +7,8 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-
+import { listLugares } from "../../routes/lugarvotacion";
+import { listTestigos } from "../../routes/testigos";
 import { createAsignarTestigo } from "../../routes/asignaciontestigo";
 
 import { AuthHeaders } from "../../components/authheader";
@@ -22,6 +23,9 @@ export const CreateAsignarTestigo = () => {
 
 	const [errors, setErrors] = useState({});
 
+	const [lugares, setLugares] = useState([]);
+	const [testigos, setTestigos] = useState([]);
+
 	let userToken = MostrarRol();
 
 	let userRol = userToken.rol;
@@ -30,7 +34,7 @@ export const CreateAsignarTestigo = () => {
 		if (userRol === "Administrador" || userRol === "Operador") {
 			Swal.fire({
 				icon: "info",
-				title: "Crear Lugar",
+				title: "Asiganr Lugar",
 				showConfirmButton: false,
 				timer: 2000,
 				didOpen: () => {
@@ -54,48 +58,24 @@ export const CreateAsignarTestigo = () => {
 	}, [navigate, userRol]);
 
 	const findFormErrors = () => {
-		const {
-			pollingStation,
-			address,
-			department,
-			township,
-			numberPollingStation,
-		} = valoresForm;
+		const { polling, witness, numberPolling } = valoresForm;
 		const newErrors = {};
 
-		if (!pollingStation || pollingStation === "")
-			newErrors.pollingStation = "cannot be blank!";
+		if (!polling || polling === "") newErrors.polling = "cannot be blank!";
 
-		if (!address || address === "") newErrors.address = "cannot be blank!";
+		if (!witness || witness === "") newErrors.witness = "cannot be blank!";
 
-		if (!department || department === "") {
-			newErrors.department = "cannot be blank!";
+		if (!numberPolling || numberPolling === "") {
+			newErrors.numberPolling = "cannot be blank!";
 		}
-
-		if (!township || township === "") {
-			newErrors.township = "cannot be blank!";
-		}
-
-		if (numberPollingStation < 0) {
-			newErrors.numberPollingStation = "must be positive number!";
-			console.log(Object.keys(newErrors).length);
-		} else {
-			if (numberPollingStation === "" || numberPollingStation === null) {
-				newErrors.numberPollingStation = "cannot be blank!";
-			}
-		}
-
 		return newErrors;
 	};
 
 	const {
-		pollingStation = "",
-		address = "",
-		department = "",
-		township = "",
-		numberPollingStation = 0,
-		availablePollingStation = 0,
-		unavailablePollingStation = 0,
+		polling = "",
+		witness = "",
+		numberPolling = "",
+		status = "Asignada",
 	} = valoresForm;
 
 	const handleOnChange = ({ target }) => {
@@ -128,17 +108,14 @@ export const CreateAsignarTestigo = () => {
 			setValidated(true);
 		} else {
 			let timerInterval;
-			const lugar = {
-				pollingStation,
-				address,
-				department,
-				township,
-				numberPollingStation,
-				availablePollingStation,
-				unavailablePollingStation,
+			const asignarLugar = {
+				polling,
+				witness,
+				numberPolling,
+				status,
 			};
 			Swal.fire({
-				title: "Desea Crear el Lugar de Votación? ",
+				title: "Desea Asiganar el testigo al lugar de Votación? ",
 				timer: 20000,
 				timerProgressBar: true,
 				showDenyButton: true,
@@ -169,11 +146,10 @@ export const CreateAsignarTestigo = () => {
 				try {
 					if (result.isConfirmed) {
 						const authheader = AuthHeaders();
-
-						data = await createAsignarTestigo(lugar, authheader);
+						data = await createAsignarTestigo(asignarLugar, authheader);
 						Swal.fire({
 							icon: "success",
-							title: "Lugar Creado",
+							title: "Lugar Asignado",
 							showConfirmButton: false,
 							timer: 2000,
 							didOpen: () => {
@@ -182,22 +158,21 @@ export const CreateAsignarTestigo = () => {
 						});
 						setTimeout(() => {
 							Swal.close();
-							navigate("/lugares");
+							navigate("/asignartestigo");
 						}, 2000);
 					} else {
 						if (result.isDenied) {
 							Swal.fire({
 								icon: "info",
-								title: "Lugar no ha sido creado",
+								title: "No se ha realizado la asignación",
 								showConfirmButton: false,
-								timer: 2000,
 								didOpen: () => {
 									Swal.showLoading();
 								},
 							});
 							setTimeout(() => {
 								Swal.close();
-								navigate("/lugares");
+								navigate("/asignartestigo");
 							}, 2000);
 						}
 					}
@@ -206,14 +181,13 @@ export const CreateAsignarTestigo = () => {
 							icon: "error",
 							title: "Se ha superado el tiempo sin una respuesta",
 							showConfirmButton: false,
-							timer: 2000,
 							didOpen: () => {
 								Swal.showLoading();
 							},
 						});
 						setTimeout(() => {
 							Swal.close();
-							navigate("/lugares");
+							navigate("/asignartestigo");
 						}, 2000);
 					}
 				} catch (error) {
@@ -223,7 +197,11 @@ export const CreateAsignarTestigo = () => {
 					if (Object.keys(newErrors).length > 0) {
 						mensaje = "Error en las validaciones";
 					} else {
-						mensaje = error.response.data;
+						if (asignarLugar != null) {
+							mensaje = "Conflicto con la información ingresada";
+						} else {
+							mensaje = error.response.data;
+						}
 					}
 					Swal.fire({
 						icon: "error",
@@ -247,87 +225,106 @@ export const CreateAsignarTestigo = () => {
 		navigate("/inicio");
 	};
 
+	useEffect(() => {
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
+			const mostrarTestigos = async () => {
+				const { data } = await listTestigos(authheader);
+				setTestigos(data);
+			};
+			mostrarTestigos();
+		}
+	}, []);
+
+	useEffect(() => {
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
+			const mostrarLugares = async () => {
+				const { data } = await listLugares(authheader);
+				setLugares(data);
+			};
+			mostrarLugares();
+		}
+	}, []);
+
 	return (
 		<>
 			<Container className="contenedor-datosPersonales">
 				<Form className="formDatosPersonales" noValidate validated={validated}>
 					<Form.Label>Datos Personales</Form.Label>
 					<Row className="mb-3">
-						<Form.Group as={Col} controlId="formGridPollingStation">
+						<Form.Group as={Col} controlId="formGridPolling">
 							<Form.Label>Lugar de Votación</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="Lugar de Votación"
-								name="pollingStation"
-								value={pollingStation}
+
+							<Form.Select
+								value={polling}
+								name="polling"
 								onChange={(e) => handleOnChange(e)}
-								required
-							/>
+							>
+								<option>Open this select menu</option>
+								{lugares.map((dato) => (
+									<option value={dato._id} id={dato._id}>
+										{dato.pollingStation}
+									</option>
+								))}
+							</Form.Select>
 							<Form.Control.Feedback type="invalid">
-								{errors.pollingStation}
+								{errors.polling}
 							</Form.Control.Feedback>
 						</Form.Group>
-
-						<Form.Group as={Col} controlId="formGridNumberPollingStation">
-							<Form.Label>Numero de Mesas</Form.Label>
-							<Form.Control
-								type="number"
-								placeholder="Numero de mesas"
-								name="numberPollingStation"
-								value={parseInt(numberPollingStation)}
+					</Row>
+					<Row>
+						<Form.Group as={Col} controlId="formGridwitness">
+							<Form.Label>Testigo Asignado</Form.Label>
+							<Form.Select
+								value={witness}
+								name="witness"
 								onChange={(e) => handleOnChange(e)}
-								required
-								min={0}
-							/>
+							>
+								<option>Open this select menu</option>
+								{testigos.map((dato) => (
+									<option value={dato._id} id={dato._id}>
+										{dato.firstName} {dato.firstSurname}
+									</option>
+								))}
+							</Form.Select>
 							<Form.Control.Feedback type="invalid">
-								{errors.numberPollingStation}
+								{errors.witness}
 							</Form.Control.Feedback>
 						</Form.Group>
 					</Row>
 					<Row className="mb-3">
 						<Form.Group as={Col} controlId="formGridAddress">
-							<Form.Label>Dirección de Votación</Form.Label>
+							<Form.Label>Numero de Mesa</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Dirección"
-								name="address"
-								value={address}
+								placeholder="Numero de mesa"
+								name="numberPolling"
+								value={numberPolling}
 								onChange={(e) => handleOnChange(e)}
 								required
 							/>
 							<Form.Control.Feedback type="invalid">
-								{errors.address}
+								{errors.numberPolling}
 							</Form.Control.Feedback>
 						</Form.Group>
 					</Row>
 					<Row className="mb-3">
-						<Form.Group as={Col} controlId="formGridDepartment">
-							<Form.Label>Departamento</Form.Label>
+						<Form.Group
+							as={Col}
+							controlId="formGridDepartment"
+							className="oculto"
+						>
+							<Form.Label>Estado</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Departamento"
-								name="department"
-								value={department}
-								onChange={(e) => handleOnChange(e)}
-								required
+								placeholder="Estado"
+								name="status"
+								value={status}
+								disabled
 							/>
-							<Form.Control.Feedback type="invalid">
-								{errors.department}
-							</Form.Control.Feedback>
-						</Form.Group>
-						<Form.Group as={Col} controlId="formGridTownship">
-							<Form.Label>Municipio</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="Municipio"
-								name="township"
-								value={township}
-								onChange={(e) => handleOnChange(e)}
-								required
-							/>
-							<Form.Control.Feedback type="invalid">
-								{errors.township}
-							</Form.Control.Feedback>
 						</Form.Group>
 					</Row>
 				</Form>

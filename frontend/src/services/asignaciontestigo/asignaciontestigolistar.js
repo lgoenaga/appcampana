@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { listAsignarTestigo } from "../../routes/asignaciontestigo";
-import TableAsignarTestigo from "./asignaciontestigotable";
+
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import "../../css/registrociudadano.css";
-
+import TableAsignarTestigo from "./asignaciontestigotable";
 import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
 
@@ -23,6 +23,7 @@ export const ListAsignarTestigo = () => {
 					try {
 						const { data } = await listAsignarTestigo(authheader);
 						setAsignarTestigos(data);
+
 					} catch (error) {
 						const request = Object.values(error);
 						const message = request[2];
@@ -116,17 +117,18 @@ export const ListAsignarTestigo = () => {
 		}
 	};
 
-	const DataTable = () => {
-		let noReg = 1;
-		return asignarTestigos.map((res, i) => {
-			res.noReg = noReg++;
-			return <TableAsignarTestigo obj={res} key={i} />;
-		});
-	};
-
 	const pageHome = () => {
 		navigate("/inicio");
 	};
+
+		const DataTable = () => {
+			let noReg = 1;
+			return asignarTestigos.map((res, i) => {
+				res.noReg = noReg++;
+				return <TableAsignarTestigo obj={res} key={i} />;
+			});
+		};
+
 
 	return (
 		<div>
@@ -164,12 +166,6 @@ export const ListAsignarTestigo = () => {
 						</th>
 						<th scope="col" className="col-contactos">
 							Mesa Asignada
-						</th>
-						<th scope="col" className="col-contactos">
-							Disponibles
-						</th>
-						<th scope="col" className="col-contactos">
-							Asignadas
 						</th>
 						<th scope="col" className="col-contactos">
 							Acción

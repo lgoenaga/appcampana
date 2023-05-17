@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import { BsFillPenFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 import { deleteAsignarTestigo } from "../../routes/asignaciontestigo";
 
 import { AuthHeaders } from "../../components/authheader";
@@ -122,17 +122,8 @@ const TableAsignarTestigo = (props) => {
 				<td className="dato-contacto">{witness.firstName}</td>
 				<td className="dato-contacto">{witness.firstSurname}</td>
 				<td className="dato-contacto">{numberPolling}</td>
-				<td className="dato-contacto">{polling.availablePollingStation}</td>
-				<td className="dato-contacto">{polling.unavailablePollingStation}</td>
-
 				<td className="dato-contacto">
-					<Button
-						className="botones-mod"
-						variant="btn btn-outline-info"
-						onClick={() => navigate(`/asignartestigo/${_id}`)}
-					>
-						<BsFillPenFill />
-					</Button>
+
 					<Button
 						variant="btn btn-outline-danger"
 						onClick={borrarAsignarTestigo}
