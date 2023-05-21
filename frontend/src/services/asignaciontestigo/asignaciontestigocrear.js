@@ -9,7 +9,10 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { listLugares, getLugar } from "../../routes/lugarvotacion";
 import { listTestigos } from "../../routes/testigos";
-import { createAsignarTestigo } from "../../routes/asignaciontestigo";
+import {
+	createAsignarTestigo,
+	listAsignarTestigo,
+} from "../../routes/asignaciontestigo";
 
 import { AuthHeaders } from "../../components/authheader";
 import { MostrarRol } from "../../components/decodec";
@@ -25,7 +28,9 @@ export const CreateAsignarTestigo = () => {
 
 	const [lugares, setLugares] = useState([]);
 	const [testigos, setTestigos] = useState([]);
-		const [numMesas, setNumMesas] = useState([]);
+	const [numMesas, setNumMesas] = useState([]);
+	const [mesasAsignadas, setMesasAsignadas] = useState([]);
+	const [mesasDisponibles, setMesasDisponibles] = useState([]);
 
 	let userToken = MostrarRol();
 
@@ -233,7 +238,24 @@ export const CreateAsignarTestigo = () => {
 			};
 			mostrarTestigos();
 		}
-	}, []);
+	}, [testigos]);
+
+	useEffect(() => {
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
+			const mostrarAsignacion = async () => {
+				const { data } = await listAsignarTestigo(authheader);
+				const datosPolling = data.filter(
+					(datop) => datop.polling._id === polling
+				);
+				const datos = datosPolling.filter((dato) => dato.status === "Asignada");
+				setMesasAsignadas(datos);
+			};
+			mostrarAsignacion();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [polling]);
 
 	useEffect(() => {
 		const authheader = AuthHeaders();
@@ -247,23 +269,35 @@ export const CreateAsignarTestigo = () => {
 		}
 	}, []);
 
-		useEffect(() => {
-			const CantMesas = async () => {
-				let cantMesas = 0;
-				let lugar = await getLugar(polling);
-				if (lugar) cantMesas = lugar.data.numberPollingStation;
+	useEffect(() => {
+		const CantMesas = async () => {
+			let cantMesas = 0;
+			let lugar = await getLugar(polling);
+			if (lugar) cantMesas = lugar.data.numberPollingStation;
 
-				var newArray = [];
-				for (var i = 0; i < cantMesas; i++) {
-					newArray.push(i);
-				}
-				setNumMesas(newArray);
-			};
-			if (polling !== "") {
-				CantMesas();
+			var newArray = [];
+			for (var i = 1; i <= cantMesas; i++) {
+				newArray.push(i);
 			}
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, [polling]);
+			setNumMesas(newArray);
+		};
+		if (polling !== "") {
+			CantMesas();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [polling]);
+
+	useEffect(() => {
+		if (polling !== "") {
+			const filtrarMesas = () => {
+				let mesas = mesasAsignadas.map((dato) => dato.numberPolling);
+				let filtro = numMesas.filter((p) => !mesas.includes(p));
+				setMesasDisponibles(filtro);
+			};
+			filtrarMesas();
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [polling]);
 
 	return (
 		<>
@@ -278,6 +312,7 @@ export const CreateAsignarTestigo = () => {
 								value={polling}
 								name="polling"
 								onChange={(e) => handleOnChange(e)}
+								id="polling"
 							>
 								<option>Open this select menu</option>
 								{lugares.map((dato) => (
@@ -323,8 +358,10 @@ export const CreateAsignarTestigo = () => {
 								<option value="" disabled hidden>
 									Open this select menu
 								</option>
-								{numMesas.map((dato) => (
-									<option key={dato}>{dato + 1}</option>
+								{mesasDisponibles.map((dato) => (
+									<option key={dato} value={dato}>
+										{dato}
+									</option>
 								))}
 							</Form.Select>
 							<Form.Control.Feedback type="invalid">
