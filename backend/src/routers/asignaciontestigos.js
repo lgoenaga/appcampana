@@ -71,7 +71,7 @@ router.post("/crear", [validateJWT], async function (req, res) {
 			let polling = await lugarElectoral.findById(req.body.polling);
 			if (polling.availablePollingStation === 0) {
 				console.warn("No hay mesas disponibles");
-				return res.status(409).send("No hay mesas dispnibles");
+				return res.status(409).send("No hay mesas disponibles");
 			}
 		}
 	}
@@ -130,7 +130,7 @@ router.put("/:Id", [validateJWT], async function (req, res) {
 
 	try {
 		if (role === "Administrador" || role === "Operador") {
-			let witnessAssignment = await WitnessAssignment.findOne({
+			let witnessAssignment = await asignacionTestigo.findOne({
 				_id: req.params.Id,
 			});
 

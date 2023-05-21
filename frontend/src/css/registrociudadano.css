@@ -92,6 +92,11 @@ h1 {
   display: none;
 }
 
+select:invalid { 
+  border: solid 1px red;
+}
+
+
 @media (max-width: 794px) {
   .Formulaio-Contactos {
     font-size: xx-small;

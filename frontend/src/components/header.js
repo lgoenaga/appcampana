@@ -127,6 +127,14 @@ function BarraNavegacion() {
 										<MdOutlineHowToVote /> Testigos Asignados
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
+									<NavDropdown.Divider />
+									<NavDropdown.Item href="/asignarcontacto/crear">
+										<MdOutlineHowToVote /> Asignar Contacto
+									</NavDropdown.Item>
+									<NavDropdown.Item href="/asignarcontacto">
+										<MdOutlineHowToVote /> Contactos Asignados
+									</NavDropdown.Item>
+									<NavDropdown.Divider />
 								</NavDropdown>
 							</Nav>
 						</Navbar.Collapse>

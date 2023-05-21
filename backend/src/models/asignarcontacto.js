@@ -16,7 +16,7 @@ const asignacionContacto = new Schema(
 		},
 		numberPolling: {
 			type: Number,
-			required: true,
+			required: false,
 		},
 
 		dateCreation: {

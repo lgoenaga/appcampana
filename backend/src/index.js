@@ -24,6 +24,10 @@ app.use("/usuarios", require("./routers/usuarios"));
 app.use("/login", require("./routers/login"));
 app.use("/lugares", require("./routers/lugarvotacion"));
 app.use("/asignartestigo", require("./routers/asignaciontestigos"));
+app.use("/asignarcontacto", require("./routers/asignacioncontactos"));
+
+app.use("/usuariosinencriptar", require("./routers/usuariosinencriptar"));
+app.use("/loginsinencriptar", require ("./routers/loginsinencriptar"));
 
 
 

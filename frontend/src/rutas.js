@@ -24,6 +24,10 @@ import ViewAsignarTestigo from "./views/asignartestigo/asignartestigolistar";
 import ViewUpdateAsignarTestigo from "./views/asignartestigo/asignartestigoupdate";
 import ViewCrearAsignarTestigo from "./views/asignartestigo/asignartestigocrear";
 
+import ViewAsignarContacto from "./views/asignarcontacto/asignarcontactolistar";
+import ViewUpdateAsignarContacto from "./views/asignarcontacto/asignarcontactoupdate";
+import ViewCrearAsignarContacto from "./views/asignarcontacto/asignarcontactocrear";
+
 
 const Rutas = () => {
   return (
@@ -71,6 +75,18 @@ const Rutas = () => {
 					exact
 					path="/asignartestigo/crear"
 					element={<ViewCrearAsignarTestigo />}
+				/>
+
+				<Route exact path="/asignarcontacto" element={<ViewAsignarContacto />} />
+				<Route
+					exact
+					path="/asignarcontacto/:id"
+					element={<ViewUpdateAsignarContacto />}
+				/>
+				<Route
+					exact
+					path="/asignarcontacto/crear"
+					element={<ViewCrearAsignarContacto />}
 				/>
 			</Routes>
 		</div>
