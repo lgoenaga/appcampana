@@ -1,11 +1,13 @@
 version: "3.8"
 services:
- frontend-campana:
-  container_name: frontend-campana
-  image: lgoenaga/frontend-campana:V1
+ appcampana:
+  container_name: appcampana
+  image: lgoenaga/appcampana:V1
+  build:
+   context: .
   ports:
    - 3000:3000
   networks:
-   - net-frontend-campana
+   - net-appcampana
 networks:
- net-frontend-campana:
+ net-appcampana:
