@@ -112,7 +112,7 @@ const TableContactos = (props) => {
 
   return (
     <>
-      <tr className="fila-contactos">
+      <tr className="fila-ciudadanos">
         <td className="dato-contacto">{noReg}</td>
         <td className="dato-contacto">{identification}</td>
         <td className="dato-contacto">{firstName}</td>

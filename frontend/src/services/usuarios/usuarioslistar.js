@@ -73,9 +73,11 @@ export const ListUsuarios = () => {
 		}
 	}, [navigate]);
 
+
+	const noItem = 12;
 	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
-	let page = usuarios.length / 12;
+	let page = usuarios.length / noItem;
 
 	if (page - Math.trunc(page) > 0) {
 		page = Math.trunc(page) + 1;
@@ -84,7 +86,7 @@ export const ListUsuarios = () => {
 	const nextPage = () => {
 		if (page > pageActual) {
 			setPageActual(pageActual + 1);
-			setCurrentPage(currentPage + 12);
+			setCurrentPage(currentPage + noItem);
 			btnpreview.disabled = false;
 			btnnext.disabled = false;
 		} else {
@@ -96,7 +98,7 @@ export const ListUsuarios = () => {
 	const previewPage = () => {
 		if (pageActual > 1) {
 			setPageActual(pageActual - 1);
-			setCurrentPage(currentPage - 12);
+			setCurrentPage(currentPage - noItem);
 			btnnext.disabled = false;
 			btnpreview.disabled = false;
 		} else {
@@ -114,12 +116,15 @@ export const ListUsuarios = () => {
 
 				return <TableUsuarios obj={res} key={i} />;
 			})
-			.slice(currentPage, currentPage + 12);
+			.slice(currentPage, currentPage + noItem);
 	};
 
 	const pageHome = () => {
 		navigate("/inicio");
 	};
+		const nuevo = () => {
+			navigate("/usuarios/crear");
+		};
 
 	return (
 		<div>
@@ -142,7 +147,7 @@ export const ListUsuarios = () => {
 			</div>
 			<table className="table border-primary  table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-usuarios">
 						<th scope="col">#</th>
 						<th scope="col">Usuario</th>
 						<th scope="col">Rol</th>
@@ -155,6 +160,9 @@ export const ListUsuarios = () => {
 			<div className="btninicio">
 				<Button variant="primary" onClick={pageHome}>
 					INICIO
+				</Button>
+				<Button className="Nuevo" variant="primary" onClick={nuevo}>
+					NUEVO
 				</Button>
 			</div>
 		</div>

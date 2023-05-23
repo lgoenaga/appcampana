@@ -130,7 +130,7 @@ const TableUsuarios = (props) => {
 
 	return (
 		<>
-			<tr className="fila-contactos">
+			<tr className="fila-usuarios">
 				<td className="dato-contacto">{noReg}</td>
 				<td className="dato-contacto">{user}</td>
 				<td className="dato-contacto">{rol}</td>

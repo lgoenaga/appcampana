@@ -16,6 +16,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+    min-height: 99vh;
+  min-width: 99vw;
+
 }
 
 code {
@@ -30,19 +33,4 @@ html {
   position: relative;
    width: 99vw;
    height: 99vh;
-}
-
-input {
-  height: 20px;
-}
-
-th{
-  text-align: center;
-}
-
-
-.container-fluid{
-  width: max-content;
-  padding-top: 10px;
-  padding-bottom: 10px;
 }

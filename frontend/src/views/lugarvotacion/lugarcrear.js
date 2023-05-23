@@ -2,7 +2,7 @@ import React from "react";
 import { CreateLugar } from "../../services/lugarvotacion/lugarcrear";
 import BarraNavegacion from "../../components/header";
 import Footer from "../../components/footer";
-import "../../css/registrociudadano.css";
+//import "./css/style.css";
 
 const ViewCrearLugar = () => {
 	return (

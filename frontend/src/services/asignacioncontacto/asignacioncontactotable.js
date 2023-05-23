@@ -116,7 +116,7 @@ const TableAsignarContacto = (props) => {
 
 	return (
 		<>
-			<tr className="fila-contactos">
+			<tr className="fila-contactoxlugar">
 				<td className="dato-contacto">{noReg}</td>
 				<td className="dato-contacto">{polling.pollingStation}</td>
 				<td className="dato-contacto">{voter.firstName}</td>

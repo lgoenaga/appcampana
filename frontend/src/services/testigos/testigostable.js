@@ -113,33 +113,33 @@ const TableTestigos = (props) => {
   };
 
   return (
-    <>
-      <tr className="fila-contactos">
-        <td className="dato-contacto">{noReg}</td>
-        <td className="dato-contacto">{identification}</td>
-        <td className="dato-contacto">{firstName}</td>
-        <td className="dato-contacto">{firstSurname}</td>
-        <td className="dato-contacto">{cellPhone}</td>
+		<>
+			<tr className="fila-testigos">
+				<td className="dato-contacto">{noReg}</td>
+				<td className="dato-contacto">{identification}</td>
+				<td className="dato-contacto">{firstName}</td>
+				<td className="dato-contacto">{firstSurname}</td>
+				<td className="dato-contacto">{cellPhone}</td>
 
-        <td className="dato-contacto">
-          <Button
-            className="botones-mod"
-            variant="btn btn-outline-info"
-            onClick={() => navigate(`/testigos/${identification}`)}
-          >
-            <BsFillPenFill />
-          </Button>
-          <Button
-            variant="btn btn-outline-danger"
-            onClick={borrarContacto}
-            className="botones-mod"
-          >
-            <BsFillTrashFill />
-          </Button>
-        </td>
-      </tr>
-    </>
-  );
+				<td className="dato-contacto">
+					<Button
+						className="botones-mod"
+						variant="btn btn-outline-info"
+						onClick={() => navigate(`/testigos/${identification}`)}
+					>
+						<BsFillPenFill />
+					</Button>
+					<Button
+						variant="btn btn-outline-danger"
+						onClick={borrarContacto}
+						className="botones-mod"
+					>
+						<BsFillTrashFill />
+					</Button>
+				</td>
+			</tr>
+		</>
+	);
 };
 
 export default TableTestigos;

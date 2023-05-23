@@ -3,7 +3,6 @@ import { listTestigos } from "../../routes/testigos";
 import TableTestigos from "./testigostable";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../../css/registrociudadano.css";
 import Button from "react-bootstrap/Button";
 import { AuthHeaders } from "../../components/authheader";
 
@@ -82,9 +81,11 @@ export const ListTestigos = () => {
 		}
 	}, [navigate]);
 
+	
+	const noItem= 12;
 	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
-	let page = testigos.length / 12;
+	let page = testigos.length / noItem;
 
 	if (page - Math.trunc(page) > 0) {
 		page = Math.trunc(page) + 1;
@@ -93,7 +94,7 @@ export const ListTestigos = () => {
 	const nextPage = () => {
 		if (page > pageActual) {
 			setPageActual(pageActual + 1);
-			setCurrentPage(currentPage + 12);
+			setCurrentPage(currentPage + noItem);
 			btnpreview.disabled = false;
 			btnnext.disabled = false;
 		} else {
@@ -105,7 +106,7 @@ export const ListTestigos = () => {
 	const previewPage = () => {
 		if (pageActual > 1) {
 			setPageActual(pageActual - 1);
-			setCurrentPage(currentPage - 12);
+			setCurrentPage(currentPage - noItem);
 			btnnext.disabled = false;
 			btnpreview.disabled = false;
 		} else {
@@ -117,10 +118,12 @@ export const ListTestigos = () => {
 	const DataTable = () => {
 		let noReg = 1;
 
-		return testigos.map((res, i) => {
-			res.noReg = noReg++;
-			return <TableTestigos obj={res} key={i} />;
-		});
+		return testigos
+			.map((res, i) => {
+				res.noReg = noReg++;
+				return <TableTestigos obj={res} key={i} />;
+			})
+			.slice(currentPage, currentPage + noItem);
 	};
 
 	const pageHome = () => {
@@ -146,9 +149,9 @@ export const ListTestigos = () => {
 					next
 				</button>
 			</div>
-			<table className="table border-primary table-hover table-contactos">
+			<table className="table border-primary table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-testigos">
 						<th scope="col" className="col-contactos">
 							#
 						</th>

@@ -8,6 +8,8 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { MdOutlineHowToVote, MdSupervisorAccount } from "react-icons/md";
 
+import "../css/header.css";
+
 function BarraNavegacion() {
 	return (
 		<header className="header-navbar">

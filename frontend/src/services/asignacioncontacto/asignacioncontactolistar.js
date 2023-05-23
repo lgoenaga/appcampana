@@ -3,7 +3,7 @@ import { listAsignarContacto } from "../../routes/asignacioncontacto";
 
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../../css/registrociudadano.css";
+
 import TableAsignarContacto from "./asignacioncontactotable";
 import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
@@ -149,9 +149,9 @@ export const ListAsignarContacto = () => {
 					next
 				</button>
 			</div>
-			<table className="table border-primary table-hover table-contactos">
+			<table className="table border-primary table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-contactoxlugar ">
 						<th scope="col" className="col-contactos">
 							#
 						</th>

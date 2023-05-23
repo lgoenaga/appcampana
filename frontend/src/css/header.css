@@ -16,7 +16,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-left: 20xp;
+  padding-left: 20px;
 }
 
 .row-two {
@@ -29,6 +29,39 @@
   border-top: 1px solid;
   margin-bottom: 5px;
 }
+
+.paginacion{
+  display: flex;
+  width: 99%;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  margin-left: 5px;
+}
+
+
+.paginacion .btn.btn-primary{
+  
+
+  align-content: space-between;
+  text-align: center;
+  align-items: center;
+  align-self: center;
+  
+  
+}
+
+.btninicio{
+display: flex;
+justify-content: center;
+margin-top: 25px;
+padding: 10px;
+}
+
+.btninicio button.btn.btn-primary{
+  width: 200px;
+}
+
+
 
 @media (min-width: 992px) {
   a.nav-link {

@@ -1,7 +1,7 @@
 import React from "react";
 import { CrearTestigo} from "../../services/testigos/testigocrear";
 import Footer from "../../components/footer";
-import "../../css/registrociudadano.css"
+//import "./css/style.css";
 
 
 const ViewTestigoCrear = () => {

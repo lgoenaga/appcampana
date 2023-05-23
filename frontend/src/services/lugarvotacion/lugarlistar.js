@@ -3,7 +3,6 @@ import { listLugares } from "../../routes/lugarvotacion";
 import TableLugares from "./lugartable";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../../css/registrociudadano.css";
 
 import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
@@ -84,9 +83,10 @@ export const ListLugares = () => {
 		}
 	}, [navigate]);
 
+	const noItem = 12;
 	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
-	let page = lugares.length / 12;
+	let page = lugares.length / noItem;
 
 	if (page - Math.trunc(page) > 0) {
 		page = Math.trunc(page) + 1;
@@ -95,7 +95,7 @@ export const ListLugares = () => {
 	const nextPage = () => {
 		if (page > pageActual) {
 			setPageActual(pageActual + 1);
-			setCurrentPage(currentPage + 12);
+			setCurrentPage(currentPage + noItem);
 			btnpreview.disabled = false;
 			btnnext.disabled = false;
 		} else {
@@ -107,7 +107,7 @@ export const ListLugares = () => {
 	const previewPage = () => {
 		if (pageActual > 1) {
 			setPageActual(pageActual - 1);
-			setCurrentPage(currentPage - 12);
+			setCurrentPage(currentPage - noItem);
 			btnnext.disabled = false;
 			btnpreview.disabled = false;
 		} else {
@@ -118,10 +118,12 @@ export const ListLugares = () => {
 
 	const DataTable = () => {
 		let noReg = 1;
-		return lugares.map((res, i) => {
-			res.noReg = noReg++;
-			return <TableLugares obj={res} key={i} />;
-		});
+		return lugares
+			.map((res, i) => {
+				res.noReg = noReg++;
+				return <TableLugares obj={res} key={i} />;
+			})
+			.slice(currentPage, currentPage + noItem);
 	};
 
 	const pageHome = () => {
@@ -147,9 +149,9 @@ export const ListLugares = () => {
 					next
 				</button>
 			</div>
-			<table className="table border-primary table-hover table-contactos">
+			<table className="table border-primary table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-lugares">
 						<th scope="col" className="col-contactos">
 							#
 						</th>

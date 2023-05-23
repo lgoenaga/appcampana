@@ -118,7 +118,7 @@ const TableLugares = (props) => {
 
 	return (
 		<>
-			<tr className="fila-contactos">
+			<tr className="fila-lugares">
 				<td className="dato-contacto">{noReg}</td>
 				<td className="dato-contacto">{pollingStation}</td>
 				<td className="dato-contacto">{address}</td>
@@ -127,7 +127,6 @@ const TableLugares = (props) => {
 				<td className="dato-contacto">{unavailablePollingStation}</td>
 
 				<td className="dato-contacto">
-       
 					<Button
 						className="botones-mod"
 						variant="btn btn-outline-info"

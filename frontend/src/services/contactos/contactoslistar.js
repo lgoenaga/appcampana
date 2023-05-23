@@ -3,7 +3,6 @@ import { listCiudadanos } from "../../routes/contactos";
 import TableContactos from "./contactostable";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../../css/registrociudadano.css";
 
 import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
@@ -85,9 +84,11 @@ export const ListCiudadanos = () => {
 		}
 	}, [navigate]);
 
+	const noItem = 12;
 	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
-	let page = ciudadanos.length / 12;
+	let page = ciudadanos.length / noItem;
+	console.log(page);
 
 	if (page - Math.trunc(page) > 0) {
 		page = Math.trunc(page) + 1;
@@ -96,7 +97,7 @@ export const ListCiudadanos = () => {
 	const nextPage = () => {
 		if (page > pageActual) {
 			setPageActual(pageActual + 1);
-			setCurrentPage(currentPage + 12);
+			setCurrentPage(currentPage + noItem);
 			btnpreview.disabled = false;
 			btnnext.disabled = false;
 		} else {
@@ -108,7 +109,7 @@ export const ListCiudadanos = () => {
 	const previewPage = () => {
 		if (pageActual > 1) {
 			setPageActual(pageActual - 1);
-			setCurrentPage(currentPage - 12);
+			setCurrentPage(currentPage - noItem);
 			btnnext.disabled = false;
 			btnpreview.disabled = false;
 		} else {
@@ -120,10 +121,12 @@ export const ListCiudadanos = () => {
 	const DataTable = () => {
 		let noReg = 1;
 
-		return ciudadanos.map((res, i) => {
-			res.noReg = noReg++;
-			return <TableContactos obj={res} key={i} />;
-		});
+		return ciudadanos
+			.map((res, i) => {
+				res.noReg = noReg++;
+				return <TableContactos obj={res} key={i} />;
+			})
+			.slice(currentPage, currentPage + noItem);;
 	};
 
 	const pageHome = () => {
@@ -149,9 +152,9 @@ export const ListCiudadanos = () => {
 					next
 				</button>
 			</div>
-			<table className="table border-primary table-hover table-contactos">
+			<table className="table border-primary table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-ciudadanos">
 						<th scope="col" className="col-contactos">
 							#
 						</th>

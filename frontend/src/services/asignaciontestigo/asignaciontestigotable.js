@@ -116,14 +116,13 @@ const TableAsignarTestigo = (props) => {
 
 	return (
 		<>
-			<tr className="fila-contactos">
+			<tr className="fila-testigoxlugar">
 				<td className="dato-contacto">{noReg}</td>
 				<td className="dato-contacto">{polling.pollingStation}</td>
 				<td className="dato-contacto">{witness.firstName}</td>
 				<td className="dato-contacto">{witness.firstSurname}</td>
 				<td className="dato-contacto">{numberPolling}</td>
 				<td className="dato-contacto">
-
 					<Button
 						variant="btn btn-outline-danger"
 						onClick={borrarAsignarTestigo}

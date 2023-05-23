@@ -216,89 +216,93 @@ export function CrearRegistroUsuario() {
 
 	return (
 		<>
-			<Container className="contenedor-usuarios container-fluid ">
-				<Form noValidate validated={validated}>
-					<Form.Group className="mb-3" controlId="formBasicUser">
-						<Form.Label>User</Form.Label>
-						<Form.Control
-							type="text"
-							placeholder="Entrar Usuario"
-							name="user"
-							value={user}
-							onChange={(e) => handleOnChange(e)}
-							required
-						/>
-						<Form.Control.Feedback type="invalid">
-							{errors.name}
-						</Form.Control.Feedback>
-					</Form.Group>
+			<Container className="Formulario-Contactos">
+				<Container className="contenedor-datosPersonales ">
+					<Form noValidate validated={validated}>
+						<Form.Group className="mb-3" controlId="formBasicUser">
+							<Form.Label>User</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Entrar Usuario"
+								name="user"
+								value={user}
+								onChange={(e) => handleOnChange(e)}
+								required
+							/>
+							<Form.Control.Feedback type="invalid">
+								{errors.name}
+							</Form.Control.Feedback>
+						</Form.Group>
 
-					<Form.Group className="mb-3" controlId="formBasicPassword">
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-							type="password"
-							placeholder="Password"
-							name="password"
-							value={password}
-							minLength="4"
-							onChange={(e) => handleOnChange(e)}
-							required
-						/>
-						<Form.Text className="text-muted">
-							Never share your password with anyone.
-						</Form.Text>
-						<Form.Control.Feedback type="invalid">
-							{errors.password}
-						</Form.Control.Feedback>
-					</Form.Group>
+						<Form.Group className="mb-3" controlId="formBasicPassword">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								name="password"
+								value={password}
+								minLength="4"
+								onChange={(e) => handleOnChange(e)}
+								required
+							/>
+							<Form.Text className="text-muted">
+								Never share your password with anyone.
+							</Form.Text>
+							<Form.Control.Feedback type="invalid">
+								{errors.password}
+							</Form.Control.Feedback>
+						</Form.Group>
 
-					<Form.Group className="mb-3" controlId="formBasicRol">
-						<Form.Label>Rol</Form.Label>
-						<select
-							className="form-select"
-							name="rol"
-							required
-							value={rol}
-							onChange={(e) => handleOnChange(e)}
-						>
-							<option value=""> Open this select menu</option>
-							<option value="Administrador">Administrador</option>
-							<option value="Consultor">Consultor</option>
-							<option value="Operador">Operador</option>
-						</select>
-						<Form.Control.Feedback type="invalid">
-							{errors.rol}
-						</Form.Control.Feedback>
-					</Form.Group>
-					<Form.Group className="mb-3" controlId="formBasicEstado">
-						<Form.Label>State</Form.Label>
-						<select
-							className="form-select"
-							name="estado"
-							required
-							value={estado}
-							onChange={(e) => handleOnChange(e)}
-						>
-							<option value=""> Open this select menu</option>
-							<option value="Activo">Activo</option>
-							<option value="Inactivo">Inactivo</option>
-						</select>
-						<Form.Control.Feedback type="invalid">
-							{errors.estado}
-						</Form.Control.Feedback>
-					</Form.Group>
-					<Form.Group className="d-flex">
-						<Button variant="primary" onClick={handleOnSubmit}>
-							Enviar
-						</Button>
-					</Form.Group>
-				</Form>
+						<Form.Group className="mb-3" controlId="formBasicRol">
+							<Form.Label>Rol</Form.Label>
+							<select
+								className="form-select"
+								name="rol"
+								required
+								value={rol}
+								onChange={(e) => handleOnChange(e)}
+							>
+								<option value=""> Open this select menu</option>
+								<option value="Administrador">Administrador</option>
+								<option value="Consultor">Consultor</option>
+								<option value="Operador">Operador</option>
+							</select>
+							<Form.Control.Feedback type="invalid">
+								{errors.rol}
+							</Form.Control.Feedback>
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="formBasicEstado">
+							<Form.Label>State</Form.Label>
+							<select
+								className="form-select"
+								name="estado"
+								required
+								value={estado}
+								onChange={(e) => handleOnChange(e)}
+							>
+								<option value=""> Open this select menu</option>
+								<option value="Activo">Activo</option>
+								<option value="Inactivo">Inactivo</option>
+							</select>
+							<Form.Control.Feedback type="invalid">
+								{errors.estado}
+							</Form.Control.Feedback>
+						</Form.Group>
+						<Form.Group className="d-flex">
+							<Button variant="primary" onClick={handleOnSubmit}>
+								Enviar
+							</Button>
+						</Form.Group>
+					</Form>
+				</Container>
 			</Container>
+			<Container>
 			<div className="btninicio">
 				<Button variant="primary" onClick={pageHome}>
 					INICIO
 				</Button>
 			</div>
+			</Container>
 		</>
 	);
 }

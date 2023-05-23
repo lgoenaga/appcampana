@@ -3,7 +3,6 @@ import { listAsignarTestigo } from "../../routes/asignaciontestigo";
 
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../../css/registrociudadano.css";
 import TableAsignarTestigo from "./asignaciontestigotable";
 import { AuthHeaders } from "../../components/authheader";
 import Button from "react-bootstrap/Button";
@@ -23,7 +22,6 @@ export const ListAsignarTestigo = () => {
 					try {
 						const { data } = await listAsignarTestigo(authheader);
 						setAsignarTestigos(data);
-
 					} catch (error) {
 						const request = Object.values(error);
 						const message = request[2];
@@ -85,9 +83,10 @@ export const ListAsignarTestigo = () => {
 		}
 	}, [navigate]);
 
+	const noItem = 12;
 	const btnnext = document.getElementById("btn-next");
 	const btnpreview = document.getElementById("btn-preview");
-	let page = asignarTestigos.length / 12;
+	let page = asignarTestigos.length / noItem;
 
 	if (page - Math.trunc(page) > 0) {
 		page = Math.trunc(page) + 1;
@@ -96,7 +95,7 @@ export const ListAsignarTestigo = () => {
 	const nextPage = () => {
 		if (page > pageActual) {
 			setPageActual(pageActual + 1);
-			setCurrentPage(currentPage + 12);
+			setCurrentPage(currentPage + noItem);
 			btnpreview.disabled = false;
 			btnnext.disabled = false;
 		} else {
@@ -108,7 +107,7 @@ export const ListAsignarTestigo = () => {
 	const previewPage = () => {
 		if (pageActual > 1) {
 			setPageActual(pageActual - 1);
-			setCurrentPage(currentPage - 12);
+			setCurrentPage(currentPage - noItem);
 			btnnext.disabled = false;
 			btnpreview.disabled = false;
 		} else {
@@ -121,14 +120,15 @@ export const ListAsignarTestigo = () => {
 		navigate("/inicio");
 	};
 
-		const DataTable = () => {
-			let noReg = 1;
-			return asignarTestigos.map((res, i) => {
+	const DataTable = () => {
+		let noReg = 1;
+		return asignarTestigos
+			.map((res, i) => {
 				res.noReg = noReg++;
 				return <TableAsignarTestigo obj={res} key={i} />;
-			});
-		};
-
+			})
+			.slice(currentPage, currentPage + noItem);
+	};
 
 	return (
 		<div>
@@ -149,9 +149,9 @@ export const ListAsignarTestigo = () => {
 					next
 				</button>
 			</div>
-			<table className="table border-primary table-hover table-contactos">
+			<table className="table border-primary table-hover">
 				<thead className="table-group-divider">
-					<tr className="table-info">
+					<tr className="table-testigoxlugar">
 						<th scope="col" className="col-contactos">
 							#
 						</th>
