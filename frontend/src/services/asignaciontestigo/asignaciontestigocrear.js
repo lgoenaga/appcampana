@@ -31,6 +31,8 @@ export const CreateAsignarTestigo = () => {
 	const [numMesas, setNumMesas] = useState([]);
 	const [mesasAsignadas, setMesasAsignadas] = useState([]);
 	const [mesasDisponibles, setMesasDisponibles] = useState([]);
+	const [testigosAsignados, setTestigosAsignados] = useState([]);
+	const [testigosDispnobles, setTestigosDisponibles] = useState([]);
 
 	let userToken = MostrarRol();
 
@@ -241,18 +243,6 @@ export const CreateAsignarTestigo = () => {
 	}, []);
 
 	useEffect(() => {
-		const authheader = AuthHeaders();
-		const vacio = localStorage.getItem("Authorization");
-		if (vacio != null) {
-			const mostrarTestigos = async () => {
-				const { data } = await listTestigos(authheader);
-				setTestigos(data);
-			};
-			mostrarTestigos();
-		}
-	}, []);
-
-	useEffect(() => {
 		const CantMesas = async () => {
 			let cantMesas = 0;
 			let lugar = await getLugar(polling);
@@ -282,6 +272,53 @@ export const CreateAsignarTestigo = () => {
 			};
 			mostrarAsignacion();
 		}
+	}, [polling]);
+
+	useEffect(() => {
+		let testDispon = [];
+
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
+			const asignarTestigo = async () => {
+				const { data } = await listAsignarTestigo(authheader);
+				const testasig = data.map((dato) => dato.witness);
+				setTestigosAsignados(testasig);
+			};
+			const mostrarTestigos = async () => {
+				const { data } = await listTestigos(authheader);
+				setTestigos(data);
+			};
+			mostrarTestigos();
+			asignarTestigo();
+
+			const test_names = testigos.map((dato) => ({
+				_id: dato._id,
+				firstName: dato.firstName,
+				firstSurname: dato.firstSurname,
+			}));
+			const testigosFull = testigosAsignados.map((dato) => ({
+				_id: dato._id,
+				firstName: dato.firstName,
+				firstSurname: dato.firstSurname,
+			}));
+			test_names.map((dato) => {
+				let encontrar = false;
+				testigosFull.map((dat) => {
+					if (dat._id === dato._id) {
+						encontrar = true;
+					}
+					return encontrar;
+				});
+				if (!encontrar) {
+					testDispon.push(dato);
+				}
+				return testDispon;
+			});
+
+			setTestigosDisponibles(testDispon);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [polling]);
 
 	useEffect(() => {
@@ -331,7 +368,7 @@ export const CreateAsignarTestigo = () => {
 								onChange={(e) => handleOnChange(e)}
 							>
 								<option>Open this select menu</option>
-								{testigos.map((dato) => (
+								{testigosDispnobles.map((dato) => (
 									<option key={dato._id} value={dato._id}>
 										{dato.firstName} {dato.firstSurname}
 									</option>
