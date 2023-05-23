@@ -232,13 +232,41 @@ export const CreateAsignarTestigo = () => {
 		const authheader = AuthHeaders();
 		const vacio = localStorage.getItem("Authorization");
 		if (vacio != null) {
+			const mostrarLugares = async () => {
+				const { data } = await listLugares(authheader);
+				setLugares(data);
+			};
+			mostrarLugares();
+		}
+	}, []);
+
+	useEffect(() => {
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
 			const mostrarTestigos = async () => {
 				const { data } = await listTestigos(authheader);
 				setTestigos(data);
 			};
 			mostrarTestigos();
 		}
-	}, [testigos]);
+	}, []);
+
+	useEffect(() => {
+		const CantMesas = async () => {
+			let cantMesas = 0;
+			let lugar = await getLugar(polling);
+			if (lugar) cantMesas = lugar.data.numberPollingStation;
+			var newArray = [];
+			for (var i = 1; i <= cantMesas; i++) {
+				newArray.push(i);
+			}
+			setNumMesas(newArray);
+		};
+		if (polling !== "") {
+			CantMesas();
+		}
+	}, [polling]);
 
 	useEffect(() => {
 		const authheader = AuthHeaders();
@@ -254,37 +282,6 @@ export const CreateAsignarTestigo = () => {
 			};
 			mostrarAsignacion();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [polling]);
-
-	useEffect(() => {
-		const authheader = AuthHeaders();
-		const vacio = localStorage.getItem("Authorization");
-		if (vacio != null) {
-			const mostrarLugares = async () => {
-				const { data } = await listLugares(authheader);
-				setLugares(data);
-			};
-			mostrarLugares();
-		}
-	}, []);
-
-	useEffect(() => {
-		const CantMesas = async () => {
-			let cantMesas = 0;
-			let lugar = await getLugar(polling);
-			if (lugar) cantMesas = lugar.data.numberPollingStation;
-
-			var newArray = [];
-			for (var i = 1; i <= cantMesas; i++) {
-				newArray.push(i);
-			}
-			setNumMesas(newArray);
-		};
-		if (polling !== "") {
-			CantMesas();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [polling]);
 
 	useEffect(() => {
@@ -296,8 +293,7 @@ export const CreateAsignarTestigo = () => {
 			};
 			filtrarMesas();
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [polling]);
+	}, [mesasAsignadas, numMesas, polling]);
 
 	return (
 		<>
