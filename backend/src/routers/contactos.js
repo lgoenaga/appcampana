@@ -44,6 +44,7 @@ router.post(
     }
 
     const role = req.payload.rol;
+    const registrante = req.payload.user
 
     try {
       if (role === "Administrador" || role === "Operador") {
@@ -72,6 +73,7 @@ router.post(
         ciudadano.address = req.body.address;
         ciudadano.neighborhood = req.body.neighborhood;
         ciudadano.urbanization = req.body.urbanization;
+        ciudadano.registrante = registrante;
         ciudadano.dateBirth = moment(req.body.dateBirth).format("YYYY-MM-DD");
         ciudadano.dateCreation = moment(new Date()).format(
           "YYYY-MM-DD h:mm:ss A"
@@ -106,6 +108,7 @@ router.put(
     }
 
     const role = req.payload.rol;
+     const registrante = req.payload.user;
 
     try {
       if (role === "Administrador" || role === "Operador") {
@@ -130,7 +133,7 @@ router.put(
         ciudadano.urbanization = req.body.urbanization;
         ciudadano.dateBirth = req.body.dateBirth;
         ciudadano.dateUpdate = new Date();
-
+        ciudadano.registrante= registrante;
         ciudadano = await ciudadano.save();
 
         res.status(200).send(ciudadano);

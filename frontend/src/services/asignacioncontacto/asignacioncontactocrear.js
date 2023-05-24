@@ -9,7 +9,10 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { listLugares, getLugar } from "../../routes/lugarvotacion";
 import { listCiudadanos } from "../../routes/contactos";
-import { createAsignarContacto } from "../../routes/asignacioncontacto";
+import {
+	createAsignarContacto,
+	listAsignarContacto,
+} from "../../routes/asignacioncontacto";
 
 import { AuthHeaders } from "../../components/authheader";
 import { MostrarRol } from "../../components/decodec";
@@ -26,6 +29,8 @@ export const CreateAsignarContacto = () => {
 	const [lugares, setLugares] = useState([]);
 	const [contactos, setContactos] = useState([]);
 	const [numMesas, setNumMesas] = useState([]);
+	const [contactosAsignados, setContactosAsignados] = useState([]);
+	const [contactosDisponibles, setTestigosDisponibles] = useState([]);
 
 	let userToken = MostrarRol();
 
@@ -78,28 +83,24 @@ export const CreateAsignarContacto = () => {
 		const CantMesas = async () => {
 			let cantMesas = 0;
 			let lugar = await getLugar(polling);
-			if (lugar)
-				cantMesas = lugar.data.numberPollingStation;
+			if (lugar) cantMesas = lugar.data.numberPollingStation;
 
 			var newArray = [];
 			for (var i = 0; i < cantMesas; i++) {
 				newArray.push(i);
 			}
 			setNumMesas(newArray);
-			
 		};
 		if (polling !== "") {
-			CantMesas();		
+			CantMesas();
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [polling]);
-
 
 	const handleOnChange = ({ target }) => {
 		const { name, value } = target;
-		
-		setValoresForm({ ...valoresForm, [name]: value });
 
+		setValoresForm({ ...valoresForm, [name]: value });
 	};
 
 	const handleOnSubmit = async (event) => {
@@ -113,7 +114,7 @@ export const CreateAsignarContacto = () => {
 		const newErrors = findFormErrors();
 		setErrors(newErrors);
 		setValidated(true);
-		console.log("valor polling " + newErrors.polling);
+
 		if (Object.keys(newErrors).length > 0) {
 			Swal.fire({
 				icon: "error",
@@ -127,7 +128,6 @@ export const CreateAsignarContacto = () => {
 				Swal.close();
 			}, 2000);
 		} else {
-
 			let timerInterval;
 			const asignarLugar = {
 				polling,
@@ -266,7 +266,53 @@ export const CreateAsignarContacto = () => {
 			};
 			mostrarLugares();
 		}
-	}, []);
+	}, [lugares]);
+
+	useEffect(() => {
+		let contacotDispon = [];
+
+		const authheader = AuthHeaders();
+		const vacio = localStorage.getItem("Authorization");
+		if (vacio != null) {
+			const asignarContacto = async () => {
+				const { data } = await listAsignarContacto(authheader);
+				const testasig = data.map((dato) => dato.voter);
+				setContactosAsignados(testasig);
+			};
+			const mostrarContactos = async () => {
+				const { data } = await listCiudadanos(authheader);
+				setContactos(data);
+			};
+			mostrarContactos();
+			asignarContacto();
+
+			const contac_names = contactos.map((dato) => ({
+				_id: dato._id,
+				firstName: dato.firstName,
+				firstSurname: dato.firstSurname,
+			}));
+			const testigosFull = contactosAsignados.map((dato) => ({
+				_id: dato._id,
+				firstName: dato.firstName,
+				firstSurname: dato.firstSurname,
+			}));
+			contac_names.map((dato) => {
+				let encontrar = false;
+				testigosFull.map((dat) => {
+					if (dat._id === dato._id) {
+						encontrar = true;
+					}
+					return encontrar;
+				});
+				if (!encontrar) {
+					contacotDispon.push(dato);
+				}
+				return contacotDispon;
+			});
+			setTestigosDisponibles(contacotDispon);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [polling]);
 
 	return (
 		<>
@@ -310,7 +356,7 @@ export const CreateAsignarContacto = () => {
 								<option value="" disabled hidden>
 									Open this select menu
 								</option>
-								{contactos.map((dato) => (
+								{contactosDisponibles.map((dato) => (
 									<option key={dato._id} value={dato._id}>
 										{dato.firstName} {dato.firstSurname}
 									</option>

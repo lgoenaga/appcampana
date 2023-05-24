@@ -27,7 +27,6 @@ export const UpdateCiudadano = () => {
 
 	let userRol = userToken.rol;
 
-
 	const {
 		identification = "",
 		firstName = "",
@@ -214,7 +213,7 @@ export const UpdateCiudadano = () => {
 						data = await updateCiudadano(documentoId, ciudadano, authheader);
 						Swal.fire({
 							icon: "success",
-							title: "Usuario Actualizado",
+							title: "Ciudadano Actualizado",
 							showConfirmButton: false,
 							timer: 2000,
 							didOpen: () => {

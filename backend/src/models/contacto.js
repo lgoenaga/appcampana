@@ -69,6 +69,10 @@ const Contacto = new Schema(
       type: String,
       required: false,
     },
+    registrante:{
+      type: String,
+      required:false,
+    },
   },
   {
     versionKey: false,
