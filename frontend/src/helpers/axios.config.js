@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const Axios = axios.create({
-	baseURL: "http://localhost:4005/",
+	baseURL: "https://quiet-cactus-3c0793.netlify.app/",
 });
